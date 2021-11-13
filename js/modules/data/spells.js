@@ -68,6 +68,7 @@ const _spells = {
     34954: {id: 34954, cd: 0, duration:0, type: 'energize', mods: {focus: 0}}, // GftT
     34839: {id: 34839, duration: 8000, type: 'buff', mods: {crit: 0}}, // Master Tac
     34499: {id: 34499, cd: 0, duration: 0, type: 'energize', mods: {mana: 0}}, // Thrill
+    46939: {id: 46939, cd: 0, duration: 0, type: 'energize', mods: {mana: 8}}, // Black Bow
     25076: {id: 25076, type: 'buff', mods: {modhst: 0.3, moddmg: -0.15}, icon: 'spell_nature_guardianward', petFamily: ['ravager']}, // Cobra Reflexes
     80005: {id: 80005, uniqueType: 'battle', icon: 'spell_misc_emotionsad', data: {}, battleelixir: true},
     28553: {id: 28553, uniqueType: 'battle', icon: 'inv_potion_127', data: {agi: 35, critr: 20}, battleelixir: true},
@@ -94,10 +95,22 @@ const _spells = {
     3045: {id: 3045, gcd: false, cd: 300000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 3045, mods: {modhst: 0.4}, duration: 15000}, // Rapid Fire
     28507: {id: 28507, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 28507, mods: {hstr: 400}, duration: 15000}, // Haste Potion
     35166: {id: 35166, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 35166, mods: {ap: 278}, duration: 20000}, // Bloodlust Brooch
+    51955: {id: 51955, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 51955, mods: {ap: 278}, duration: 20000}, // Brew
     26296: {id: 26296, gcd: false, cd: 180000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 26296, mods: {hstp: 0.1}, duration: 10000}, // Berserking
     34026: {id: 34026, gcd: false, cd: 5000, castTime: 0, cost: 75, school: 'physical', auraId: 100001}, // kill command
     42083: {id: 42083, duration: 10000, type:'buff', school: 'physical', mods: {ap: 340}}, // tsunami
     34774: {id: 34774, duration: 10000, type:'buff', school: 'physical', mods: {hstr: 325}}, // dst
+    40475: {id: 40475, duration: 10000, type:'buff', school: 'physical', mods: {arp: 300}}, // dst
+    33648: {id: 33648, duration: 10000, type:'buff', school: 'physical', mods: {ap: 300}}, // hourglass
+    45354: {id: 45354, duration: 20000, type:'buff', school: 'physical', mods: {ap: 230}}, // shard of contempt
+    45355: {id: 45355, duration: 20000, type:'buff', school: 'physical', mods: {apph: 44, maxap: 440}}, // naaru
+    39438: {id: 39438, duration: 10000, type:'buff', school: 'physical', mods: {apph: 6, maxap: 120}}, // crusade
+    33807: {id: 33807, cd: 120000, castTime: 0, duration: 10000, type:'buff', auraId: 33807, school: 'physical', mods: {hstr: 260}}, // abacus
+    34106: {id: 34106, cd: 120000, castTime: 0, duration: 20000, type:'buff', auraId: 34106, school: 'physical', mods: {arp: 600}}, // icon
+    43716: {id: 43716, cd: 120000, castTime: 0, duration: 20000, type:'buff', auraId: 43716, school: 'physical', mods: {ap: 360}}, // berserker's
+    46784: {id: 46784, cd: 90000, castTime: 0, duration: 15000, type:'buff', auraId: 46784, school: 'physical', mods: {ap: 320}}, // panther
+    40729: {id: 40729, cd: 120000, castTime: 0, duration: 20000, type:'buff', auraId: 40729, school: 'physical', mods: {agi: 150}}, // panther
+
     100001: {id: 100001, gcd: false, duration: 3000, castTime: 0, cost: 0, school: 'physical', type: 'buff', mods: {cankc: true}},
 };
 

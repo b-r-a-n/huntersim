@@ -52,12 +52,24 @@ class AuraHandler {
     }
     handleEvent(sim, e) {
         switch(e.type) {
+            case 'damage': {
+                let source = sim.entities[e.sourceId];
+                for (let a of source.auras) {
+                    for (let k in a.mods) {
+                        if (k === 'apph') {
+                            // TODO: max 
+                            a.mods.ap = a.mods.ap || 0;
+                            a.mods.ap += a.mods[k];
+                            a.mods.ap = Math.min(a.mods.ap, (a.mods.maxap || a.mods.ap));
+                        }
+                    }
+                }
+            }
             case 'debuff':
             case 'buff': {
                 let aura = sim.auras(e.abilityId);
                 if (!aura) { console.warn('Aura lookup failed', e); return; }
                 let target = sim.entities[e.targetId];
-                let source = sim.entities[e.sourceId];
                 for (let a of target.auras) {
                     // TODO: Stacking/dedup attrib
                     if (a.abilityId == aura.id && a.sourceId == e.sourceId) {
@@ -65,10 +77,12 @@ class AuraHandler {
                         return;
                     }
                 }
+                var mods = {};
+                Object.assign(mods, aura.mods);
                 var auraInfo = {
                     sourceId: e.sourceId,
                     abilityId: aura.id,
-                    mods: aura.modsFn ? aura.modsFn(source) : aura.mods,
+                    mods: mods,
                     expiresTs: e.ts + e.duration
                 };
                 target.auras.push(auraInfo);

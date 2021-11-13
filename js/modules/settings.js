@@ -55,7 +55,7 @@ const defaultSettings = {
     ],
     items: [
         33803, // Ammo 24 
-        32474, // Head 1
+        30141, // Head 1
         29381, // Neck 2
         30143, // Shoulder 3
         null,  // Shirt

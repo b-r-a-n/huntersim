@@ -1,26 +1,27 @@
 class AutoAttackGenerator {
-    constructor(source, target, abilityId) {
-        this.source = source;
-        this.target = target;
+    constructor(sourceId, targetId, abilityId) {
+        this.sourceId = sourceId;
+        this.targetId = targetId;
         this.abilityId = abilityId;
         this.nextAttackTs = 0;
     }
     peekEvent() {
         return this.nextAttackTs;
     }
-    popEvent(ts) {
+    popEvent(sim, ts) {
         let e = {
             ts: this.nextAttackTs,
             type: 'cast',
-            sourceId: this.source.id,
-            targetId: this.target.id,
+            sourceId: this.sourceId,
+            targetId: this.targetId,
             abilityId: this.abilityId,
             school: 'physical',
             cost: 0,
             duration: 0
         };
-        let base = this.source.mhWeapon.stats.mspd*1000;
-        this.nextAttackTs = this.nextAttackTs + (base/this.source.meleeHaste());
+        let source = sim.entities[this.sourceId];
+        let base = source.mhWeapon.stats.mspd*1000;
+        this.nextAttackTs = this.nextAttackTs + (base/source.meleeHaste());
         return e;
     }
     handleEvent(e) {}

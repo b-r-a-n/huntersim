@@ -1,7 +1,8 @@
 function randomChoice(chances, names, randFn) {
     if (chances.length != (names.length-1)) throw 'invalid chance size';
-    let rem = Math.max(0, (1 - chances.reduce((p,c)=>{return p+c;}, 0)));
-    let rId = Number(randFn.which(chances.concat([rem])));
+    let rounded = chances.map(c=>Math.round(c*1000)/1000);
+    let rem = Math.max(0, (1 - rounded.reduce((p,c)=>{return p+c;}, 0)));
+    let rId = Number(randFn.which(rounded.concat([rem])));
     return names[rId];
 }
 function mitigation(source, target, school) {

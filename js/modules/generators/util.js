@@ -13,8 +13,8 @@ function makeGenerators(simInputs) {
     return [
         manaHandler([simInputs.player.id]),
         focusHandler([simInputs.pet.id]),
-        new AutoShotGenerator(simInputs.player, simInputs.target, 75),
-        new AutoAttackGenerator(simInputs.pet, simInputs.target, 1),
+        new AutoShotGenerator(simInputs.player.id, simInputs.target.id, 75),
+        new AutoAttackGenerator(simInputs.pet.id, simInputs.target.id, 1),
         new CastGenerator(),
         new DamageGenerator(Object.values(Spells.all).filter(s=>s.ranged || s.melee).map(a=>a.id)),
         new AuraGenerator(),
@@ -22,8 +22,8 @@ function makeGenerators(simInputs) {
         new ProcHandler(simInputs.procs),
         new BuffHandler(),
         new AbilityGenerator({id: -1}, simInputs.buffs.concat(simInputs.debuffs)),
-        new AbilityGenerator(simInputs.player, simInputs.playerRules),
-        new AbilityGenerator(simInputs.pet, simInputs.petRules),
+        new AbilityGenerator(simInputs.player.id, simInputs.playerRules),
+        new AbilityGenerator(simInputs.pet.id, simInputs.petRules),
     ]
 }
 

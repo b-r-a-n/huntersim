@@ -1,6 +1,6 @@
 class AbilityGenerator {
-    constructor(source, rules) {
-        this.source = source;
+    constructor(sourceId, rules) {
+        this.sourceId = sourceId;
         this.castEndTs = null;
         this.gcdTs = 0;
         this.repeatIntervals = {};
@@ -17,9 +17,10 @@ class AbilityGenerator {
             let targetCD = ((this.repeatIntervals[rule.targetId] || {})[rule.abilityId] || 0);
             let cdTs = Math.max(globalCD, targetCD);
             if (cdTs <= nextTs) {
+                let source = sim.entities[this.sourceId];
                 let ability = sim.abilities(rule.abilityId);
                 let target = sim.entities[rule.targetId];
-                if (rule.usable(ability, this.source, target, nextTs)) {
+                if (rule.usable(ability, source, target, nextTs)) {
                     nextAbility = ability;
                     targetId = target.id;
                     ts = cdTs;
@@ -48,12 +49,13 @@ class AbilityGenerator {
             }
         }
         let hasteMod = 1.0;
-        if (next.ability.ranged) hasteMod = this.source.rangedHaste();
-        if (next.ability.melee) hasteMod = this.source.meleeHaste();
+        let source = sim.entities[this.sourceId];
+        if (next.ability.ranged) hasteMod = source.rangedHaste();
+        if (next.ability.melee) hasteMod = source.meleeHaste();
         var duration = (next.ability.castTime || 0)/hasteMod;
         let e = {
             type: type,
-            sourceId: this.source.id,
+            sourceId: this.sourceId,
             targetId: next.targetId,
             ts: next.ts,
             duration: duration,
@@ -68,7 +70,7 @@ class AbilityGenerator {
     handleEvent(sim, e) {
         switch(e.type) {
             case 'begincast': {
-                if (e.sourceId == this.source.id) {
+                if (e.sourceId == this.sourceId) {
                     let ability = sim.abilities(e.abilityId) || {};
                     this.castEndTs = e.ts + e.duration;
                     let cd = Math.max((ability.cd || 0) - e.duration, 0.0);
@@ -85,7 +87,7 @@ class AbilityGenerator {
                 break;
             }
             case 'cast': {
-                if (e.sourceId == this.source.id) {
+                if (e.sourceId == this.sourceId) {
                     let ability = sim.abilities(e.abilityId);
                     if (!ability) return;
                     let cd = Math.max((ability.cd || 0) - e.duration, 0.0);

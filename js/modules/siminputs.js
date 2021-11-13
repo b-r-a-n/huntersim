@@ -2,6 +2,7 @@ import * as Items from './data/items.js';
 import * as Talents from './data/talents.js';
 import * as Spells from './data/spells.js';
 import * as Procs from './data/procs.js';
+import * as AbilityAuras from './data/abilityaura.js';
 import * as Races from './data/races.js';
 import * as Pets from './data/pets.js';
 import {Hunter, Target, Pet} from './entities.js';
@@ -127,41 +128,11 @@ function statsFromItems(state) {
     return result;
 }
 
-class RandFn {
-    constructor(seed) {
-        this.seed = seed;
-    }
-    gen() {
-        let val = Math.sin(this.seed++)*1000;
-        return val - Math.floor(val);
-    }
-    check(chance) {
-        let randVal = this.gen();
-        return randVal < chance;
-    }
-    which(chances) {
-        let randVal = this.gen();
-        var cumulative = 0;
-        for (let idx in chances) {
-            cumulative += chances[idx];
-            if (randVal <= cumulative) { return idx; }
-        }
-        console.error('Invalid chance array, should sum to 1 was ' + chances);
-        return null;
-    }
-    between(min, max) {
-        let delta = max-min;
-        let randVal = this.gen();
-        return Math.floor(min + delta*randVal);
-    }
-}
-
 function create(settings) {
     let simTime = settings.fightDuration * 1000;
-    let randFn = new RandFn(settings.randomSeed);
     let rangedWeapon = Items.item(settings.items[18]);
     let ammoId = settings.items[0];
-    let ammo = Items.item(ammoId);
+    var ammo = Items.item(ammoId);
     let talents = Talents.decode(settings.encodedTalents);
     const damageFns = {
         1: (s, t, d) => {
@@ -189,10 +160,14 @@ function create(settings) {
             return d;
         }
     }
+    // Thoridal doesn't use ammo
+    if (settings.items[16] == 34334) {
+        ammo = null;
+    }
     let player = new Hunter(
         1, 'orc', Items.item(settings.items[16]), Items.item(settings.items[17]), rangedWeapon, ammo, talents, Spells
     );
-    let pet = new Pet(2, player, Spells, randFn);
+    let pet = new Pet(2, player, Spells);
     let target = new Target(3, settings.targetArmor, damageFns);
     let buffsInfo = statsFromBuffs(settings);
     let talentsInfo = statsFromTalents(talents);
@@ -310,8 +285,35 @@ function create(settings) {
             proc.chance = points*proc.chancePerTalent;
         }
     }
+    // ability auras
+    for (let a of AbilityAuras.all) {
+        let aura = JSON.parse(JSON.stringify(a));
+        let required = AbilityAuras.requirements(a.id);
+        if (required.items) {
+            var itemCount = 0;
+            for (let itemId of required.items) {
+                if (settings.items.includes(itemId)) itemCount++;
+            }
+            if (itemCount >= required.count) { 
+                let auras = player.abilityAuras[aura.abilityId] || [];
+                auras.push(aura);
+                player.abilityAuras[aura.abilityId] = auras; 
+                continue; 
+            }
+        }
+        if (required.talent && player.talents[required.talent]) { 
+            let auras = player.abilityAuras[aura.abilityId] || [];
+            for (let k in aura.mods) {
+                aura.mods[k] *= player.talents[required.talent];
+            }
+            auras.push(aura);
+            player.abilityAuras[aura.abilityId] = auras; 
+            continue; 
+        }
+    }
     // Special case auras
     let auras = [];
+    // Ferocious
     for (let idx in Array(settings.numFerocious).fill(0)) {
         auras.push({
             targetId: player.id,
@@ -326,15 +328,40 @@ function create(settings) {
             mods: Spells.spell(34460).mods,
         });
     }
+    // Hawk
     auras.push({
         targetId: player.id,
         sourceId: player.id,
         abilityId: 27044,
         mods: Spells.spell(27044).mods,
     });
+    if (player.talents.humanoidSlaying && target.type === 'humanoid') {
+        var mods = Spells.spell(19153).mods;
+        for (let k in mods) {
+            mods[k] *= player.talents.humanoidSlaying;
+        }
+        auras.push({
+            targetId: player.id,
+            sourceId: player.id,
+            abilityId: 19153,
+            mods: mods
+        });
+    }
+    if (player.talents.monsterSlaying && ['beast', 'giant', 'dragonkin'].includes(target.type)) {
+        var mods = Spells.spell(24295).mods;
+        for (let k in mods) {
+            mods[k] *= player.talents.monsterSlaying;
+        }
+        auras.push({
+            targetId: player.id,
+            sourceId: player.id,
+            abilityId: 24295,
+            mods: mods 
+        });
+    }
     return {
         simTime: simTime,
-        rand: randFn,
+        seed: settings.randomSeed,
         player: player,
         pet: pet,
         target: target,
@@ -343,7 +370,7 @@ function create(settings) {
         auras: auras,
         modifiedSpells: modifiedSpells,
         procs: procs,
-        playerRules: Rotation.defaultHunterRotation(player, pet, target),
+        playerRules: Rotation.defaultHunterRotation(player, pet, target, settings.items),
         petRules: Rotation.defaultPetRotation(pet, settings.petAbilities, target)
     };
 }

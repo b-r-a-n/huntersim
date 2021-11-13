@@ -1,13 +1,43 @@
+class RandFn {
+    constructor(seed) {
+        this.seed = seed;
+    }
+    gen() {
+        let val = Math.sin(this.seed++)*1000;
+        return val - Math.floor(val);
+    }
+    check(chance) {
+        let randVal = this.gen();
+        return randVal < chance;
+    }
+    which(chances) {
+        let randVal = this.gen();
+        var cumulative = 0;
+        for (let idx in chances) {
+            cumulative += chances[idx];
+            if (randVal <= cumulative) { return idx; }
+        }
+        console.error('Invalid chance array, should sum to 1 was ' + chances);
+        return null;
+    }
+    between(min, max) {
+        let delta = max-min;
+        let randVal = this.gen();
+        return Math.floor(min + delta*randVal);
+    }
+}
 class Simulation {
-    constructor(simTime, rand, player, pet, target, modSpells, spells) {
+    constructor(simTime, seed, player, pet, target, modSpells, spells) {
         this.ts = 0;
         this.simTime = simTime;
-        this.rand = rand;
-        this.player = player;
-        this.pet = pet;
-        this.target = target;
+        this.rand = new RandFn(seed);
+        this.player = player.copy();
+        this.pet = pet.copy();
+        this.pet.randFn = this.rand;
+        this.pet.owner = this.player;
+        this.target = target.copy();
         this.eventLog = [];
-        this.modSpells = modSpells;
+        this.modSpells = JSON.parse(JSON.stringify(modSpells));
         this._spells = spells;
     }
     get entities() {
@@ -23,7 +53,12 @@ class Simulation {
     abilities(id) {
         return this.modSpells[id] || this._spells[id];
     }
+    reset() {
+        this.eventLog = [];
+        this.ts = 0;
+    }
     run(generators, maxIter=100000) {
+        this.reset();
         var active = true;
         var eventLog = this.eventLog;
         var iters = 0;
@@ -48,6 +83,9 @@ class Simulation {
                 g.handleEvent(this, e);
             }
             active = (this.ts < this.simTime);
+        }
+        for (let g of generators) {
+            if (g.flush) g.flush(this);
         }
         if (iters>=maxIter) console.warn('End due to max iterations');
     }

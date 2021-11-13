@@ -53,6 +53,11 @@ class Entity {
         this.resource = resource;
         this.spells = spells;
         this.auras = [];
+        this.abilityAuras = {};
+    }
+    copy() {
+        return new Entity(this.id, this.mhWeapon, this.ohWeapon, this.rangedWeapon, this.ammo,
+            JSON.parse(JSON.stringify(this.talents)), JSON.parse(JSON.stringify(this.resource)), spells);
     }
     setMaxResource(val) {
         let percent = this.resource.current/this.resource.max;
@@ -135,11 +140,13 @@ class Entity {
         return agi/this.agiToCrit + critr/2207.6 + modcrit;
     }
     rangedCrit(target, abilityId) {
+        let aAuras = this.abilityAuras[abilityId] || [];
         let s = getMods(this.auras, ['critr', 'rcritr', 'agi', 'crit', 'rcrit'], ['modagi']);
+        let a = getMods(aAuras, ['critr', 'rcritr', 'agi', 'crit', 'rcrit'], ['modagi']);
         let t = getMods(target.auras, ['acritr', 'arcritr', 'aagi', 'arcrit', 'acrit'], ['amodagi']);
         let agi = this.agi(target);
-        let critr = s.critr + t.acritr + s.rcritr + t.arcritr;
-        let modcrit = s.crit + t.acrit + s.rcrit + t.arcrit;
+        let critr = s.critr + a.critr + t.acritr + s.rcritr + a.rcritr + t.arcritr;
+        let modcrit = s.crit + a.crit + t.acrit + s.rcrit + a.rcrit + t.arcrit;
         return agi/this.agiToCrit + critr/2207.6 + modcrit;
     }
     crit(target, abilityId) {
@@ -149,9 +156,11 @@ class Entity {
         return 0.0;
     }
     rangedDamageMod(target, abilityId) {
+        let aAuras = this.abilityAuras[abilityId] || [];
         let s = getMods(this.auras, [], ['moddmg', 'modrdmg']);
+        let a = getMods(aAuras, [], ['moddmg', 'modrdmg']);
         let t = getMods(target.auras, [], ['amoddmg', 'amodrdmg']);
-        return s.moddmg * s.modrdmg * t.amoddmg * t.amodrdmg;
+        return s.moddmg * s.modrdmg * a.moddmg * a.modrdmg * t.amoddmg * t.amodrdmg;
     }
     rangedCritDamageMod(target, abilityId) {
         let baseMod = 2.0;
@@ -253,7 +262,6 @@ class Entity {
         let stats = getMods(this.auras, ['mps'], []);
         return stats.mps;
     }
-
 }
 class Hunter extends Entity {
     constructor(id, race, mhWeapon, ohWeapon, rangedWeapon, ammo, talents, spells) {
@@ -261,6 +269,12 @@ class Hunter extends Entity {
         super(id, mhWeapon, ohWeapon, rangedWeapon, ammo, talents, manaPool, spells);
         this.race = race;
         this.nextBeginCast = 0;
+    }
+    copy() {
+        let hunter = new Hunter(this.id, this.race, this.mhWeapon, this.ohWeapon, this.rangedWeapon, this.ammo, JSON.parse(JSON.stringify(this.talents)), this.spells);
+        hunter.resource = JSON.parse(JSON.stringify(this.resource));
+        hunter.auras = JSON.parse(JSON.stringify(this.auras));
+        return hunter;
     }
     rangedAp(target) {
         let s = getMods(this.auras, ['ap', 'rap', 'agi'], ['modap', 'modrap', 'modagi']);
@@ -306,6 +320,11 @@ class Target {
         this._armor = armor;
         this.auras = [];
     }
+    copy() {
+        let t = new Target(this.id, this._armor)
+        t.auras = JSON.parse(JSON.stringify(this.auras));
+        return t;
+    }
     get armor() {
         var mod = 0;
         for (let aura of this.auras) {
@@ -315,7 +334,7 @@ class Target {
     }
 }
 class Pet extends Entity {
-    constructor(id, owner, spells, randFn) {
+    constructor(id, owner, spells) {
         let petWeapon = {stats: {mspd: 2.0, mmindmg: 42, mmaxdmg: 48}};
         let focusPool = {type: 'focus', max: 100, current: 100};
         super(id, petWeapon, null, null, null, {}, focusPool, spells)
@@ -323,7 +342,12 @@ class Pet extends Entity {
         this.agiToCrit = 3300;
         this.strToAp = 2;
         this.auras = [];
-        this.randFn = randFn;
+        this.randFn = null;
+    }
+    copy() {
+        let p =  new Pet(this.id, this.owner, this.spells);
+        p.auras = JSON.parse(JSON.stringify(this.auras));
+        return p;
     }
     resourcePerHit(target) {
         let s = getMods(this.auras, ['fph'], []);

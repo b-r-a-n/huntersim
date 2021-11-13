@@ -1,31 +1,31 @@
 class AutoShotGenerator {
-    constructor(source, target, abilityId) {
-        this.baseWeaponSpeed = source.rangedWeapon.stats.rspd * 1000;
-        this.source = source;
+    constructor(sourceId, targetId, abilityId) {
+        this.sourceId = sourceId;
         this.isCasting = false;
-        this.target = target;
+        this.targetId = targetId;
         this.abilityId = abilityId;
         this.nextBeginCast = 0.0;
     }
-    castTime() {
-        return 500 / this.source.rangedHaste();
+    castTime(source) {
+        return 500 / source.rangedHaste();
     }
-    shotTime() {
-        return this.baseWeaponSpeed/this.source.rangedHaste() - this.castTime();
+    shotTime(source) {
+        return source.rangedBaseSpeed()*1000/source.rangedHaste() - this.castTime(source);
     }
     peekEvent() {
         return this.nextBeginCast;
     }
     popEvent(sim) {
+        let source = sim.entities[this.sourceId];
         return {
             ts: this.nextBeginCast,
             type: 'begincast',
-            sourceId: this.source.id,
-            targetId: this.target.id,
+            sourceId: this.sourceId,
+            targetId: this.targetId,
             abilityId: this.abilityId,
             school: 'physical',
             cost: 0,
-            duration: this.castTime()
+            duration: this.castTime(source)
         };
     }
     handleEvent(sim, e) {
@@ -34,23 +34,25 @@ class AutoShotGenerator {
                 break;
             }
             case 'begincast': {
-                if (e.sourceId == this.source.id) {
+                if (e.sourceId == this.sourceId) {
+                    let source = sim.entities[this.sourceId];
                     if (e.abilityId == this.abilityId) {
-                        this.nextBeginCast = e.ts + e.duration + this.shotTime();
+                        this.nextBeginCast = e.ts + e.duration + this.shotTime(source);
                     } else {
                         this.nextBeginCast = Math.max(e.ts + e.duration, this.nextBeginCast);
                     }
-                    this.source.nextBeginCast = this.nextBeginCast;
+                    source.nextBeginCast = this.nextBeginCast;
                     this.isCasting = true;
                 }
                 break;
             }
             case 'cast': {
-                if (e.sourceId == this.source.id) {
+                if (e.sourceId == this.sourceId) {
+                    let source = sim.entities[this.sourceId];
                     if (e.abilityId == this.abilityId) {
-                        this.nextBeginCast = e.ts + this.shotTime();
+                        this.nextBeginCast = e.ts + this.shotTime(source);
                     }
-                    this.source.nextBeginCast = this.nextBeginCast;
+                    source.nextBeginCast = this.nextBeginCast;
                     this.isCasting = false;
                 }
                 break;
