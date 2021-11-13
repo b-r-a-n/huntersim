@@ -23,12 +23,15 @@ const _spells = {
     34120: {id: 34120, gcd: true, cd: 0, castTime: 1000, cost: 110, school: 'physical', ranged: true, weaponDamage: true},
     // Foods
     33288: {id: 33288, uniqueType: 'food', icon: 'inv_misc_food_65', data: {agi: 20}, food: true},
-    33872: {id: 33872, uniqueType: 'food', icon: 'inv_misc_food_84_roastclefthoof', data: {hitr: 20}, food: true},
+    43765: {id: 43765, uniqueType: 'food', icon: 'inv_misc_food_84_roastclefthoof', data: {hitr: 20}, food: true},
     33284: {id: 33284, uniqueType: 'food', icon: 'inv_misc_food_53', data: {ap: 40, spi: 20}, food: true},
-    80001: {id: 80001, uniqueType: 'food', icon: 'spell_misc_emotionsad', data: {}, food: true},
+    //80001: {id: 80001, uniqueType: 'food', icon: 'spell_misc_emotionsad', data: {}, food: true},
     // Pet Foods
-    33874: {id: 33874, uniqueType: 'pet_food', icon: 'inv_misc_food_49', data: {str: 20, spi: 20}, petfood: true},
-    80002: {id: 80002, uniqueType: 'pet_food', icon: 'spell_misc_emotionsad', data: {}, petfood: true},
+    43772: {id: 43772, uniqueType: 'pet_food', icon: 'inv_misc_food_49', data: {str: 20, spi: 20}, petbuff: true},
+    // Scrolls
+    33077: {id: 33077, uniqueType: 'agi_scroll', icon: 'spell_holy_blessingofagility', data: {agi: 20}, petbuff: true, scroll: true},
+    33082: {id: 33082, uniqueType: 'str_scroll', icon: 'spell_nature_strength', data: {str: 20}, scroll: true, petbuff: true},
+    //80002: {id: 80002, uniqueType: 'pet_food', icon: 'spell_misc_emotionsad', data: {}, petfood: true},
     // Drums
     35476: {id: 35476, uniqueType: 'drums', icon: 'inv_misc_drum_02', auraId:35476, type:'buff', duration: 30000, mods: {hstr: 80}, drums:true},
     35475: {id: 35475, uniqueType: 'drums', icon: 'inv_misc_drum_03', auraId:35475, type:'buff', duration: 30000, mods: {ap: 60}, drums:true},
@@ -46,7 +49,7 @@ const _spells = {
     25528: {id: 25528, uniqueType: 'earth_totem', icon: 'spell_nature_earthbindtotem', auraId: 25528, type:'buff', duration: 120000, mods: {str: 98}, totem: true},
     25359: {id: 25359, uniqueType: 'wind_totem', icon: 'spell_nature_invisibilitytotem', auraId: 25359, type:'buff', duration: 120000, mods: {agi: 88}, totem: true},
     25570: {id: 25570, uniqueType: 'water_totem', icon: 'spell_nature_manaregentotem', auraId: 25570, type:'buff', duration: 120000, mods: {mps: 50}, totem: true},
-    30811: {id: 30811, uniqueType: 'unleashed_rage', icon: 'spell_nature_unleashedrage', auraId: 30811, duration: 10000, type:'buff', mods: {modmap: 0.1}},
+    30811: {id: 30811, uniqueType: 'unleashed_rage', icon: 'spell_nature_unleashedrage', auraId: 30811, duration: 10000, type:'buff', mods: {modmap: 0.1}, shaman: true},
     // Buffs
     25898: {id:25898, uniqueType: 'blessing_of_kings', icon: 'spell_magic_greaterblessingofkings', data: {modagi: 0.1, modstr: 0.1, modint: 0.1, modsta: 0.1, modspi: 0.1}, buff: true},
     27044: {id: 27044, auraId: 27044, mods: {rap: 155}, type:'buff', cost: 140},
@@ -58,8 +61,6 @@ const _spells = {
     26991: {id: 26991, uniqueType: 'gotw', icon: 'spell_nature_giftofthewild', data: allStats(18), buff: true},
     27127: {id: 27127, uniqueType: 'arcane_brilliance', icon: 'spell_holy_arcaneintellect', data: {int: 40}, buff: true},
     25392: {id: 25392, uniqueType: 'fortitude', icon: 'spell_holy_prayeroffortitude', auraId: 25392, type:'buff', data: {sta: 102}, buff: true},
-    33077: {id: 33077, uniqueType: 'agi_scroll', icon: 'spell_holy_blessingofagility', data: {agi: 20}, petscroll: true, scroll: true},
-    33082: {id: 33082, uniqueType: 'str_scroll', icon: 'spell_nature_strength', data: {str: 20}, scroll: true, petscroll: true},
     34460: {id: 34460, uniqueType: '1', icon: 'ability_hunter_ferociousinspiration', type:'buff', mods: {moddmg:0.03}},
     37483: {id: 37483, type:'buff', duration: 15000, mods: {arp: 600}},
     2825: {id: 2825, uniqueType: '1', icon: 'spell_nature_bloodlust', auraId: 2825, type:'buff', duration:40000, mods: {modhst:0.3}},
@@ -78,17 +79,23 @@ const _spells = {
     22840: {id: 22840, uniqueType: 'guardian', icon: 'inv_potion_151', data: {mps: 16}, guardianelixir: true},
     80006: {id: 80006, uniqueType: 'guardian', icon: 'spell_misc_emotionsad', data: {}, guardianelixir: true},
     28421: {id: 28421, uniqueType: 'stone', icon: 'inv_stone_weightstone_07', data: {bdmg: 12, critr: 14}, stone:true},
-    90001: {id: 90001, data: {ap: 34, hitr: 16}}, // Cenarion Head
-    90003: {id: 90003, data: {ap: 30, critr: 10}}, // Aldor shoulder
-    90005: {id: 90005, data: {sta: 6, str:6, int:6, agi:6, spi:6}}, // 6 stats to chest
-    90009: {id: 90009, data: {ap: 24}}, // ap to bracer
-    90016: {id: 90016, data: {agi: 15}}, // agi to main hand
-    90017: {id: 90017, data: {agi: 15}}, // agi to off hand
-    90010: {id: 90010, data: {agi: 15}}, // agi to glove
-    90007: {id: 90007, data: {ap: 50, critr:12}}, // Cobra legs
-    90008: {id: 90008, data: {agi: 12}}, // Boots
-    90015: {id: 90015, data: {agi: 12}}, // Cloak
-    90018: {id: 90018, data: {rcritr: 28}}, // Bow
+    35452: {id: 35452, data: {ap: 34, hitr: 16}, enchId:3003}, // Cenarion Head
+    35417: {id: 35417, data: {ap: 30, critr: 10}, enchId:2986}, // Aldor shoulder
+    35439: {id: 35439, data: {ap: 15, critr: 20}, enchId:2997}, // Scryer shoulder
+    35429: {id: 35429, data: {sta: 6, str:6, int:6, agi:6, spi:6}, enchId:2661}, // 6 stats to chest
+    34002: {id: 34002, data: {ap: 24}, enchId:1593}, // ap to bracer
+    23800: {id: 23800, data: {agi: 15}, enchId:2564}, // agi to main hand
+    25080: {id: 25080, data: {agi: 15}, enchId:2564}, // agi to glove
+    29535: {id: 29535, data: {ap: 50, critr:12}, enchId:3012}, // Cobra legs
+    35488: {id: 35488, data: {ap: 40, critr:10}, enchId:3010}, // Cheap Cobra legs
+    22544: {id: 22544, data: {agi: 12}, enchId: 2657}, // Boots
+    28279: {id: 28279, data: {agi: 6}, enchId: 2939}, // Boots
+    27954: {id: 27954, data: {hitr: 10}, enchId:2658}, // Boots
+    34004: {id: 34004, data: {agi: 12}, enchId:368}, // Cloak
+    30260: {id: 30260, data: {rcritr: 28}, enchId:2724}, // Bow
+    30252: {id: 30252, data: {bdmg: 12}, enchId:2723}, // Bow
+    22779: {id: 22779, data: {rhitr: 30}, enchId:2523}, // Bow
+    27977: {id: 27977, data: {agi: 35}, enchId:2670}, // 2h
     6150: {id: 6150, type: 'buff', cd: 0, duration: 12000, school: 'physical', mods: {modrhst: 0.00}},
     19574: {id: 19574, gcd: false, cd: 120000, castTime: 0, cost: 325, school: 'physical', type: 'buff', auraId: 19574, mods: {moddmg: 0.5}, duration: 18000}, // Bestial Wrath
     20572: {id: 20572, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 20572, mods: {ap: 282}, duration: 15000}, // Blood Fury

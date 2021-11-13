@@ -15,6 +15,7 @@ const defaultSettings = {
     encodedTalents: '512002005250122431051-0505201205',
     randomSeed: 1,
     targetArmor: 7700,
+    targetType: 'other',
     quiverHaste: 15,
     race: 'orc',
     petFamily: 'ravager',
@@ -55,7 +56,7 @@ const defaultSettings = {
     ],
     items: [
         33803, // Ammo 24 
-        30141, // Head 1
+        32474, // Head 1
         29381, // Neck 2
         30143, // Shoulder 3
         null,  // Shirt
@@ -84,17 +85,17 @@ const defaultSettings = {
         16: [24055, 24028],
     },
     enchants: {
-        1: 90001, //{ap: 34, hitr: 16}, // Cenarion Head
-        3: 90003, //{ap: 30, critr: 10}, // Aldor shoulder
-        5: 90005, //{sta: 6, str:6, int:6, agi:6, spi:6}, // 6 stats to chest
-        9: 90009, //{ap: 24}, // ap to bracer
-        16: 90016, //{agi: 15}, // agi to main hand
-        17: 90017, //{agi: 15}, // agi to off hand
-        10: 90010, //{agi: 15}, // agi to glove
-        7: 90003, //{ap: 50, critr:12}, // Cobra legs
-        8: 90008, //{agi: 12}, // Boots
-        15: 90015, //{agi: 12}, // Cloak
-        18: 90018, //{rcritr: 28} // Bow
+        1: 35452, //{ap: 34, hitr: 16}, // Cenarion Head
+        3: 35417, //{ap: 30, critr: 10}, // Aldor shoulder
+        5: 35429, //{sta: 6, str:6, int:6, agi:6, spi:6}, // 6 stats to chest
+        9: 34002, //{ap: 24}, // ap to bracer
+        16: 23800, //{agi: 15}, // agi to main hand
+        17: 23800, //{agi: 15}, // agi to off hand
+        10: 25080, //{agi: 15}, // agi to glove
+        7: 29535, //{ap: 50, critr:12}, // Cobra legs
+        8: 22544, //{agi: 12}, // Boots
+        15: 34004, //{agi: 12}, // Cloak
+        18: 30260, //{rcritr: 28} // Bow
     }
 };
 

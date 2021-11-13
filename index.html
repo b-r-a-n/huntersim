@@ -8,10 +8,71 @@
         <script src="./js/entity.js"></script>
         <script src="./js/app.js"></script>
         -->
+        <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
+        <script src="https://wow.zamimg.com/widgets/power.js"></script>
         <script type="module" src="./js/main.js"></script>
+        <style>
+            .fieldsets fieldset {
+                display: inline;
+            }
+            .fieldsets fieldset label {
+                display: block;
+            }
+            a.icon {
+                padding-left: 18px !important;
+            }
+            .icon.orc {
+                background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_orc_male.gif") left center no-repeat;
+            }
+            .icon.troll {
+                background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_troll_male.gif") left center no-repeat;
+            }
+            .icon.tauren {
+                background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_tauren_male.gif") left center no-repeat;
+            }
+            .icon.bloodelf {
+                background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_bloodelf_male.gif") left center no-repeat;
+            }
+            .icon.dwarf {
+                background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_dwarf_male.gif") left center no-repeat;
+            }
+            .icon.nightelf {
+                background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_nightelf_male.gif") left center no-repeat;
+            }
+            .icon.draenei {
+                background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_draenei_male.gif") left center no-repeat;
+            }
+        </style>
         <title>TBC Hunter Sim</title>
     </head>
     <body>
-        Under Construction
+        <div class='fieldsets'>
+            <fieldset>
+                <legend>Settings</legend>
+                <label>Fight Duration</label>
+                <input type='number' id='fightDuration'></input>
+                <label>Random Seed</label>
+                <input type='number' id='randomSeed'></input>
+                <label>Target Armor</label>
+                <input type='number' id='targetArmor'></input>
+                <label>Target Type</label>
+                <input type='text' id='targetType'></input>
+                <label>Talents</label>
+                <input type='text' id='encodedTalents'></input>
+                <label>Quiver Haste</label>
+                <input type='number' id='quiverHaste'></input>
+            </fieldset>
+            <fieldset id='races'></fieldset>
+            <fieldset id='staticBuffs'></fieldset>
+            <fieldset id='shamanBuffs'></fieldset>
+            <fieldset id='foodBuffs'></fieldset>
+            <fieldset id='petBuffs'></fieldset>
+            <fieldset id='petAbilities'></fieldset>
+            <fieldset id='debuffs'></fieldset>
+            <fieldset id='lusts'></fieldset>
+            <fieldset id='ferociousInspirations'></fieldset>
+            <fieldset id='items'></fieldset>
+        </div>
+        <div id='talents'></div>
     </body>
 </html>
