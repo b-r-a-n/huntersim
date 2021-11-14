@@ -79,16 +79,16 @@ const _spells = {
     22840: {id: 22840, uniqueType: 'guardian', icon: 'inv_potion_151', data: {mps: 16}, guardianelixir: true},
     80006: {id: 80006, uniqueType: 'guardian', icon: 'spell_misc_emotionsad', data: {}, guardianelixir: true},
     28421: {id: 28421, uniqueType: 'stone', icon: 'inv_stone_weightstone_07', data: {bdmg: 12, critr: 14}, stone:true},
-    35452: {id: 35452, data: {ap: 34, hitr: 16}, enchId:3003}, // Cenarion Head
-    35417: {id: 35417, data: {ap: 30, critr: 10}, enchId:2986}, // Aldor shoulder
-    35439: {id: 35439, data: {ap: 15, critr: 20}, enchId:2997}, // Scryer shoulder
-    35429: {id: 35429, data: {sta: 6, str:6, int:6, agi:6, spi:6}, enchId:2661}, // 6 stats to chest
+    29192: {id: 29192, data: {ap: 34, hitr: 16}, enchId:3003}, // Cenarion Head
+    28888: {id: 28888, data: {ap: 30, critr: 10}, enchId:2986}, // Aldor shoulder
+    28910: {id: 28910, data: {ap: 15, critr: 20}, enchId:2997}, // Scryer shoulder
+    27960: {id: 27960, data: {sta: 6, str:6, int:6, agi:6, spi:6}, enchId:2661}, // 6 stats to chest
     34002: {id: 34002, data: {ap: 24}, enchId:1593}, // ap to bracer
     23800: {id: 23800, data: {agi: 15}, enchId:2564}, // agi to main hand
     25080: {id: 25080, data: {agi: 15}, enchId:2564}, // agi to glove
-    29535: {id: 29535, data: {ap: 50, critr:12}, enchId:3012}, // Cobra legs
+    35490: {id: 35490, data: {ap: 50, critr:12}, enchId:3012}, // Cobra legs
     35488: {id: 35488, data: {ap: 40, critr:10}, enchId:3010}, // Cheap Cobra legs
-    22544: {id: 22544, data: {agi: 12}, enchId: 2657}, // Boots
+    27951: {id: 27951, data: {agi: 12}, enchId: 2657}, // Boots
     28279: {id: 28279, data: {agi: 6}, enchId: 2939}, // Boots
     27954: {id: 27954, data: {hitr: 10}, enchId:2658}, // Boots
     34004: {id: 34004, data: {agi: 12}, enchId:368}, // Cloak

@@ -12,7 +12,6 @@ function whUrl(type, id, extras={}) {
         let values = extras[k];
         params += `&${k}=${values.join(':')}`;
     }
-    console.log(params);
     return `${_whUrl}${type}=${id}${params}`;
 }
 

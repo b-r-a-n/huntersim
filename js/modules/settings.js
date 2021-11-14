@@ -85,15 +85,15 @@ const defaultSettings = {
         16: [24055, 24028],
     },
     enchants: {
-        1: 35452, //{ap: 34, hitr: 16}, // Cenarion Head
-        3: 35417, //{ap: 30, critr: 10}, // Aldor shoulder
-        5: 35429, //{sta: 6, str:6, int:6, agi:6, spi:6}, // 6 stats to chest
+        1: 29192, //{ap: 34, hitr: 16}, // Cenarion Head
+        3: 28888, //{ap: 30, critr: 10}, // Aldor shoulder
+        5: 27960, //{sta: 6, str:6, int:6, agi:6, spi:6}, // 6 stats to chest
         9: 34002, //{ap: 24}, // ap to bracer
         16: 23800, //{agi: 15}, // agi to main hand
         17: 23800, //{agi: 15}, // agi to off hand
         10: 25080, //{agi: 15}, // agi to glove
-        7: 29535, //{ap: 50, critr:12}, // Cobra legs
-        8: 22544, //{agi: 12}, // Boots
+        7: 35490, //{ap: 50, critr:12}, // Cobra legs
+        8: 27951, //{agi: 12}, // Boots
         15: 34004, //{agi: 12}, // Cloak
         18: 30260, //{rcritr: 28} // Bow
     }

@@ -46,6 +46,7 @@ function addTalents(selector, encodedTalents) {
 
 function addItems(selector, itemIds, gemIds, enchantIds) {
     var html = '<legend>Items</legend>';
+    html += '<div class="itemgrid">';
     for (let invSlot in itemIds) {
         let slotItemId = itemIds[invSlot];
         if (!slotItemId) continue;
@@ -60,8 +61,27 @@ function addItems(selector, itemIds, gemIds, enchantIds) {
             if (info && info.enchId) extras['ench'] = [info.enchId];
         }
         let itemUrl = Util.whUrl('item', slotItemId, extras);
-        html += `<label><a href=${itemUrl}></a></label>`;
+        html += `<div class='item' data-id=${slotItemId} data-slot=${invSlot}><a href=${itemUrl}></a></div>`;
+        var gemSocketIndex = 0;
+        while (gemSocketIndex < 3) {
+            if (slotGemIds[gemSocketIndex]) {
+                let gemId = slotGemIds[gemSocketIndex];
+                let gemUrl = Util.whUrl('item', gemId);
+                html += `<a class='gem' data-id=${gemId} data-slot=${invSlot} data-wh-rename-link='false' href=${gemUrl}></a>`;
+            } else {
+                html += '<span></span>';
+            }
+            gemSocketIndex++;
+        }
+        if (slotEnchantId) {
+            let type = [1,3,6].includes(Number(invSlot)) ? 'item' : 'spell';
+            let enchUrl = Util.whUrl(type, slotEnchantId);
+            html += `<a class='enchant' data-id=${slotEnchantId} data-slot=${invSlot} data-wh-rename-link='false' href=${enchUrl}></a></span>`;
+        } else {
+            html += `<span></span>`;
+        }
     }
+    html += '</div>';
     selector.replaceChildren(...Util.t2e(html));
 }
 
@@ -128,4 +148,40 @@ function update(document, settings) {
     $WowheadPower.refreshLinks();
 }
 
-export {update}
+function get(document) {
+    let settings = {};
+    settings.fightDuration = Number(document.getElementById('fightDuration').value);
+    settings.randomSeed = Number(document.getElementById('randomSeed').value);
+    settings.targetArmor = Number(document.getElementById('targetArmor').value);
+    settings.targetType = document.getElementById('targetType').value;
+    settings.encodedTalents = document.getElementById('encodedTalents').value;
+    settings.quiverHaste = Number(document.getElementById('quiverHaste').value);
+    settings.race = document.querySelector('#races input:checked').dataset.id;
+    let passive = Array.from(document.querySelectorAll('#staticBuffs input:checked'), n=>Number(n.dataset.id));
+    let food = Array.from(document.querySelectorAll('#foodBuffs input:checked'), n=>Number(n.dataset.id));
+    settings.passiveBuffs = passive.concat(food);
+    settings.petBuffs = Array.from(document.querySelectorAll('#petBuffs input:checked'), n=>Number(n.dataset.id));
+    settings.petAbilities = Array.from(document.querySelectorAll('#petAbilities input:checked'), n=>Number(n.dataset.id));
+    // Stones
+    // Drums
+    settings.numLusts = document.querySelectorAll('#lusts input:checked').length;
+    settings.numFerocious = document.querySelectorAll('#ferociousInspirations input:checked').length;
+    settings.debuffs = Array.from(document.querySelectorAll('#debuffs input:checked'), n=>Number(n.dataset.id));
+    settings.totems = Array.from(document.querySelectorAll('#shamanBuffs input:checked'), n=>Number(n.dataset.id));
+    settings.items = Array.from(document.querySelectorAll('#items .item'), n=>n.dataset).reduce((p,c)=> {
+        p[Number(c.slot)] = Number(c.id); return p;
+    }, Array(19));
+    // Gems
+    settings.gems = Array.from(document.querySelectorAll('#items .gem'), n=>n.dataset).reduce((p,c)=> {
+        p[Number(c.slot)] = p[Number(c.slot)] || [];
+        p[Number(c.slot)].push(Number(c.id)); return p;
+    }, {});
+    // Enchants
+    settings.enchants = Array.from(document.querySelectorAll('#items .enchant'), n=>n.dataset).reduce((p,c)=> {
+        p[Number(c.slot)] = Number(c.id); return p;
+    }, {});
+    // Pet family
+    return settings;
+}
+
+export {update, get}

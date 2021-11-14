@@ -12,8 +12,16 @@
         <script src="https://wow.zamimg.com/widgets/power.js"></script>
         <script type="module" src="./js/main.js"></script>
         <style>
+            .itemgrid {
+                display: grid;
+                grid-template-columns: auto 1fr 1fr 1fr 1fr;
+            }
+            .itemgrid span {
+                display: inline;
+            }
             .fieldsets fieldset {
                 display: inline;
+                vertical-align: top;
             }
             .fieldsets fieldset label {
                 display: block;

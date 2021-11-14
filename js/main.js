@@ -41,4 +41,5 @@ function runSim() {
 
 document.addEventListener('DOMContentLoaded', function() {
     UISettings.update(document, Settings.defaultSettings);
+    console.log(UISettings.get(document));
 }, false);
