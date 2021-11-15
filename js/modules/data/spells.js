@@ -81,6 +81,7 @@ const _spells = {
     27960: {id: 27960, data: {sta: 6, str:6, int:6, agi:6, spi:6}, enchId:2661, slots: [5]}, // 6 stats to chest
     34002: {id: 34002, data: {ap: 24}, enchId:1593, slots: [9]}, // ap to bracer
     23800: {id: 23800, data: {agi: 15}, enchId:2564, slots: [16, 17]}, // agi to main hand
+    42620: {id: 42620, data: {agi: 20}, enchId:3222, slots: [16, 17]}, // agi to main hand
     25080: {id: 25080, data: {agi: 15}, enchId:2564, slots: [10]}, // agi to glove
     35490: {id: 35490, data: {ap: 50, critr:12}, enchId:3012, slots: [7]}, // Cobra legs
     35488: {id: 35488, data: {ap: 40, critr:10}, enchId:3010, slots: [7]}, // Cheap Cobra legs

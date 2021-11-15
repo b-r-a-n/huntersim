@@ -87,9 +87,57 @@ function findNode(target, classes) {
 function itemFilter(inventorySlot, phase) { 
     return (i) => { return (i.phase <= phase) && canEquip(inventorySlot, i); }
 }
+const _gems =
+[
+    24031,
+    24048,
+    24058,
+    24067,
+    25894,
+    25895,
+    27786,
+    27809,
+    28119,
+    28122,
+    28360,
+    28361,
+    28362,
+    28363,
+    28556,
+    30550,
+    30553,
+    30565,
+    30574,
+    30582,
+    30584,
+    30591,
+    30602,
+    31118,
+    31863,
+    31865,
+    31868,
+    32197,
+    32205,
+    32213,
+    32214,
+    32217,
+    32222,
+    32226,
+    32634,
+    32637,
+    32640,
+    32735,
+    33131,
+    33143,
+    35487,
+    35758,
+    38545,
+    38547,
+    38550
+]
 
 function gemFilter(phase) { 
-    let filterGems = [24055, 32409, 24028, 24028, 31868, 31868, 24067];
+    let filterGems = _gems;
     return (i) => { return (i.class == 3) && filterGems.includes(i.id); };
 }
 
@@ -154,7 +202,7 @@ function show(target) {
     var results = Object.values(isEnchant ? Spells.all : Items.all).filter(filterFn).sort(w).slice(0,20);
     let searchBar = Util.t2e(`<div><input class='searchbar' type='text'></input></div>`);
     searchBar[0].oninput = (e) => { 
-        let items = Items.find(e.target.value, filterFn);
+        let items = Items.find(e.target.value, filterFn).sort(w);
         while (picker.childElementCount > 1) picker.removeChild(picker.lastChild);
         addItems(picker, items, inventorySlot, socket, node.dataset.type);
         $WowheadPower.refreshLinks();
