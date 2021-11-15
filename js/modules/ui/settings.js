@@ -120,7 +120,12 @@ function updateStats(selector, player, target) {
     let agi = Math.floor(player.agi(target));
     let crit = Math.floor(player.rangedCrit(target)*1000)/10;
     let hit = Math.floor(player.rangedHit(target)*1000)/10;
-    let html = `<div id='rap'>Ranged Ap<hr>${ap}</div><div id='agi'>Agility<hr>${agi}</div><div id='crt'>Ranged Crit<hr>${crit}%</div><div id='hit'>Ranged Hit<hr>${hit}%</div>`
+    let haste = Math.floor((player.rangedHaste()-1)*1000)/10;
+    let html = `<div id='rap'>Ranged Ap<hr>${ap}</div>`;
+    html += `<div id='agi'>Agility<hr>${agi}</div>`;
+    html += `<div id='crt'>Ranged Crit<hr>${crit}%</div>`;
+    html += `<div id='hit'>Ranged Hit<hr>${hit}%</div>`;
+    html += `<div id='hit'>Ranged Haste<hr>${haste}%</div>`;
     selector.replaceChildren(...Util.t2e(html));
 }
 
@@ -320,4 +325,4 @@ function load(key) {
     return JSON.parse(json);
 }
 
-export {update, get, save, load, getItems, updateItems, updateStats}
+export {update, get, save, load, getItems, updateItems, updateStats, addTalents}

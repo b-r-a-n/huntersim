@@ -31,6 +31,30 @@ a, a:visited {
     background-color:#ffffff09;
 
 }
+.resultgrid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+#abilityinfo {
+    border-left: 2px solid #ffffff18;
+}
+#abilityinfo td {
+    padding: 4px;
+
+}
+.dpsgrid {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+}
+.dpsgrid div:first-child {
+    color: #00ff00;
+    font-size:xx-large;
+}
+.dpsgrid div:nth-child(2) {
+    color: #ff8800;
+    font-size: small;
+}
 .searchbar {
     width: 100%;
 }
@@ -50,7 +74,7 @@ a, a:visited {
 #stats {
     margin-top: 24px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 }
 #stats hr {
     border-color: #ffffff18;
@@ -123,7 +147,7 @@ a, a:visited {
     vertical-align: top;
     border-color: #ffffff18;
 }
-.fieldsets fieldset input {
+.fieldsets fieldset input, .fieldsets fieldset select {
     background-color:#ffffff09;
     color:#eee;
     border: none;
@@ -139,7 +163,7 @@ a, a:visited {
 .formgrid span {
     align-self: center;
 }
-.formgrid input {
+.formgrid input, .formgrid select {
     margin: 2px;
     padding: 6px;
 }
@@ -155,8 +179,12 @@ a, a:visited {
 }
 #history table {
     background-color: #ffffff09;
+    border-collapse: collapse;
     border-spacing: 0px;
     width:100%;
+}
+#history table tr:not(:first-child) {
+    border-top: solid 4px #111;
 }
 .fieldsets fieldset .btn:hover {
     background:#ffffff45;
@@ -234,7 +262,7 @@ fieldset hr {
     align-self: center;
     cursor: pointer;
 }
-.tt {
+.tt > a, .tt > span {
     border-bottom: 1px dotted;
 }
 .tt .ttt {

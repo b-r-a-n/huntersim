@@ -63,7 +63,7 @@ function updateHistory(selector) {
         return 0;
     })) {
         let minutesAgo = Math.floor((Date.now() - result[0])/60000);
-        html += `<tr data-key='${result[3]}' class='btn'><td>${minutesAgo}m ago</td><td>Hunter: ${Math.floor(result[1])}</td><td>Pet: ${Math.floor(result[2])}</td></tr>`;
+        html += `<tr data-key='${result[3]}' class='btn'><td>${minutesAgo}m ago</td><td>DPS: ${Math.floor(result[1]+result[2])}</td></tr>`;
     }
     html += '</tbody></table>';
     let elements = Util.t2e(html);
@@ -78,7 +78,7 @@ function updateHistory(selector) {
     selector.replaceChildren(...elements);
 }
 
-function update(document, simulation) {
+function update(document, simulation, aggregateInfo, min, max) {
     let totalDmg = simulation.eventLog
         .filter(e=>e.type === 'damage')
         .reduce((p,c) => {
@@ -89,35 +89,28 @@ function update(document, simulation) {
         }, {});
     for (let k in totalDmg) { totalDmg[k] = Math.floor(totalDmg[k]/(simulation.ts/1000)); }
     totalDmg['Total'] = totalDmg['Hunter'] + totalDmg['Pet'];
-    let totalTable = makeTable('DPS', totalDmg);
-    /**
-    let hunterDmg = damageByAbility(simulation, simulation.player.id);
-    let formattedHunterTable = {};
-    for (let k in hunterDmg) { 
-        let fKey = `<a data-wh-icon-size="tiny" href=https://tbc.wowhead.com/spell=${k}>${g_spell_names[k]}</a>`
-        formattedHunterTable[fKey] = [hunterDmg[k][0], Math.floor(hunterDmg[k][1])]; 
-    }
-    let hunterTable = makeTable('Hunter', formattedHunterTable, [], TIPS);
-    let petDmg = damageByAbility(simulation, simulation.pet.id);
-    let formattedPetTable = {};
-    for (let k in petDmg) { 
-        let id = k == 1 ? 779 : k;
-        let fKey = `<a data-wh-rename-link="${k == 1 ? "false" : "true" }" data-wh-icon-size="tiny" href=https://tbc.wowhead.com/spell=${id}>${g_spell_names[k]}</a>`
-        formattedPetTable[fKey] = [petDmg[k][0], Math.floor(petDmg[k][1])];
-    }
-    let petTable = makeTable('Pet', formattedPetTable, [], TIPS);
-    */
     let exportButton = Util.t2e('<div class="btn">Export .csv</div>');
     exportButton[0].onclick = (e) => { exportCSV(simulation); };
     document.querySelector('#result').replaceChildren(...Util.t2e('<legend>Result</legend>'));
-    document.querySelector('#result').append(...totalTable);
-    document.querySelector('#result').append(...exportButton);
+    var tableInfo = {};
+    var totalDps = 0;
+    for (let k in aggregateInfo) {
+        let vals = aggregateInfo[k];
+        if (k==='pet') {
+            tableInfo['Pet'] = ['', '', Math.floor(vals[2]*10)/10];
+        } else {
+            let fKey = `<a data-wh-icon-size="tiny" href=https://tbc.wowhead.com/spell=${k}></a>`
+            tableInfo[fKey] = [Math.floor(vals[0]), Math.floor(1000*vals[1]/vals[0])/10, Math.floor(vals[2]*10)/10];
+        }
+        totalDps += vals[2];
+    }
+    let abilityTable = makeTable('Ability Breakdown', tableInfo);
+    let html = `<div class='resultgrid'><div class='dpsgrid'><div>${Math.floor(10*totalDps)/10}</div><div>${Math.floor(10*min)/10} - ${Math.floor(10*max)/10}</div></div><div id='abilityinfo'></div></div>`
+    document.querySelector('#result').append(...Util.t2e(html));
+    document.querySelector('#abilityinfo').replaceChildren(...abilityTable);
+    document.querySelector('.dpsgrid').append(...exportButton);
     updateHistory(document.querySelector('#history'));
-    /**
-    document.getElementById('hunter_result').replaceChildren(...hunterTable);
-    document.getElementById('pet_result').replaceChildren(...petTable);
-    */
-    //$WowheadPower.refreshLinks();
+    $WowheadPower.refreshLinks();
 
 }
 

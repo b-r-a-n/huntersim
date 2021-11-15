@@ -35,10 +35,11 @@ function saveRecent(settings, result) {
 
 function runSim() {
     let settings = UISettings.get(document);
-    let hunterDps = 0;
-    let petDps = 0;
     var i = 0;
     var lastSim = null;
+    var aggregateInfo = {};
+    var min = null;
+    var max = null;
     while (i < 10) {
         settings.randomSeed = i*10;
         let inputs = Inputs.create(settings);
@@ -54,22 +55,39 @@ function runSim() {
         sim.run(generators);
         lastSim = sim;
         let result = A.damageBySource(sim.eventLog);
-        hunterDps += result[inputs.player.id];
-        petDps += result[inputs.pet.id];
+        let dps = result[inputs.player.id] + result[inputs.pet.id];
+        if (!min || dps < min) min = dps;
+        if (!max || dps > min) max = dps;
+        let abilityDPS = A.damageByAbility(sim, inputs.player.id);
+        for (let k in abilityDPS) {
+            aggregateInfo[k] = aggregateInfo[k] || [0,0,0];
+            aggregateInfo[k][0] += (abilityDPS[k][0] || 0);
+            aggregateInfo[k][1] += (abilityDPS[k][1] || 0);
+            aggregateInfo[k][2] += (abilityDPS[k][2] || 0);
+        }
+        aggregateInfo['pet'] = aggregateInfo['pet'] || [0,0,0];
+        aggregateInfo['pet'][2] += result[inputs.pet.id];
         i++;
     }
-    saveRecent(settings, {hunter: hunterDps/i, pet: petDps/i});
-    UIResults.update(document, lastSim);
+    let total = 0;
+    for (let k in aggregateInfo) {
+        aggregateInfo[k][0] /= i;
+        aggregateInfo[k][1] /= i;
+        aggregateInfo[k][2] /= i;
+        if (k !== 'pet') total += (aggregateInfo[k][2]/i)
+    }
+    saveRecent(settings, {hunter: total, pet: aggregateInfo['pet'][2]});
+    UIResults.update(document, lastSim, aggregateInfo, min, max);
 }
 
 function settingsChanged(e) {
     let newSettings = UISettings.get(document);
     let input = Inputs.create(newSettings);
     UISettings.save('lastused', newSettings);
+    UISettings.addTalents(document.querySelector('#talents'), newSettings.encodedTalents);
     UISettings.updateStats(document.querySelector('#stats'), input.player, input.target);
     $WowheadPower.refreshLinks();
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
     UIResults.updateHistory(document.querySelector('#history'));

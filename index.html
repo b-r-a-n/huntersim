@@ -18,13 +18,19 @@
                         <input type='number' id='randomSeed'></input>
                         <span>Target Armor</span>
                         <input type='number' id='targetArmor'></input>
-                        <span>Target Type</span>
-                        <input type='text' id='targetType'></input>
-                        <span>Pet Family</span>
-                        <input type='text' id='petFamily'></input>
+                        <div class='tt'><span>Target Type</span>
+                            <div class='ttt'><span>Target types are not implemented yet (e.g. humanoid slaying bonus)</span></div>
+                        </div>
+                        <select id='targetType'><option value='other'>Other</option></select>
+                        <div class='tt'><span>Pet Family</span>
+                            <div class='ttt'><span>Other pet types not implemented yet.</span></div>
+                        </div>
+                        <select id='petFamily'><option value='ravager' selected>Ravager</option></select>
                         <span>Quiver Haste</span>
                         <input type='number' id='quiverHaste'></input>
-                        <div class='tt'><a href='https://tbc.wowhead.com/talent-calc/hunter'>Talents</a><div class='ttt'><span>Copy the part at the end of the wowhead talent url. It will look like talent-calc/hunter/###COPY#THIS###.</span></div></div>
+                        <div class='tt'><a href='https://tbc.wowhead.com/talent-calc/hunter'>Talents</a>
+                            <div class='ttt'><span>Copy the part at the end of the wowhead talent url. It will look like talent-calc/hunter/###COPY#THIS###.</span></div>
+                        </div>
                         <input type='text' id='encodedTalents'></input>
                     </div>
                     <div class='btn' id='runButton'>Run</div>

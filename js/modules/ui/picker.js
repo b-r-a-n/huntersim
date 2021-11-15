@@ -131,7 +131,7 @@ function show(target) {
     var socket = null;
     switch (node.dataset.type) {
         case 'item': {
-            filterFn = itemFilter(inventorySlot, 2);
+            filterFn = itemFilter(inventorySlot, 3);
             break;
         }
         case 'gem': {
