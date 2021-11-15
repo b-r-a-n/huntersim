@@ -81,11 +81,7 @@ function hide(selector) {
 }
 
 function findNode(target, classes) {
-    for (let node of target.path) {
-        let type = node.dataset.type;
-        if (type && classes.includes(type)) return node;
-    }
-    return null;
+    return target.currentTarget;
 }
 
 function itemFilter(inventorySlot, phase) { 
@@ -166,8 +162,8 @@ function show(target) {
     picker.append(...searchBar);
     addItems(picker, results, inventorySlot, socket, node.dataset.type);
     $WowheadPower.refreshLinks();
-    document.getElementById('picker').style.left = left;
-    document.getElementById('picker').style.top = top;
+    document.getElementById('picker').style.left = left + 'px';
+    document.getElementById('picker').style.top = top + 'px';
     document.getElementById('picker').style.transform = 'translate(-100%, 0)';
     document.getElementById('picker').style.display = 'block';
 }
