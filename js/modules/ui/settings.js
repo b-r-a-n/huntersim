@@ -4,6 +4,7 @@ import * as Items from '../data/items.js';
 import * as Races from '../data/races.js';
 import * as Spells from '../data/spells.js';
 import * as Talents from '../data/talents.js';
+import * as Inputs from '../siminputs.js';
 
 function foodBuffs(settings) {
     var foods = [];
@@ -114,13 +115,24 @@ function colorForSocket(socketId) {
         case 4: return 'blue';
     }
 }
+function updateStats(selector, player, target) {
+    let ap = Math.floor(player.rangedAp(target));
+    let agi = Math.floor(player.agi(target));
+    let crit = Math.floor(player.rangedCrit(target)*1000)/10;
+    let hit = Math.floor(player.rangedHit(target)*1000)/10;
+    let html = `<div id='rap'>Ranged Ap<hr>${ap}</div><div id='agi'>Agility<hr>${agi}</div><div id='crt'>Ranged Crit<hr>${crit}%</div><div id='hit'>Ranged Hit<hr>${hit}%</div>`
+    selector.replaceChildren(...Util.t2e(html));
+}
 
 function updateItems(selector, itemIds, gemIds, enchantIds, dispatch=false) {
-    var html = '<legend>Items</legend>';
-    html += '<div class="itemgrid">';
+    var html = '<div class="itemgrid">';
     for (let invSlot in itemIds) {
+        if (invSlot == 4) continue; // Shirt
         let slotItemId = itemIds[invSlot];
-        if (!slotItemId) continue;
+        if (!slotItemId) {
+            html += `<div class='item' data-type=item data-slot=${invSlot}>None</div><div></div><span></span><span></span><span></span><span></span>`;
+            continue;
+        }
         let extras = {};
         let slotGemIds = gemIds[invSlot] || [];
         if (slotGemIds.length > 0) {
@@ -243,6 +255,10 @@ function update(document, settings) {
     // Talents
     addTalents(document.querySelector('#talents'), settings.encodedTalents);
 
+    // Stats
+    let inputs = Inputs.create(settings);
+    updateStats(document.querySelector('#stats'), inputs.player, inputs.target);
+
     // Items
     updateItems(document.querySelector('#items'), settings.items, settings.gems, settings.enchants, true);
 }
@@ -304,4 +320,4 @@ function load(key) {
     return JSON.parse(json);
 }
 
-export {update, get, save, load, getItems, updateItems}
+export {update, get, save, load, getItems, updateItems, updateStats}

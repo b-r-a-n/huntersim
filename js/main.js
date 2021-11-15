@@ -64,7 +64,9 @@ function runSim() {
 
 function settingsChanged(e) {
     let newSettings = UISettings.get(document);
+    let input = Inputs.create(newSettings);
     UISettings.save('lastused', newSettings);
+    UISettings.updateStats(document.querySelector('#stats'), input.player, input.target);
     $WowheadPower.refreshLinks();
 }
 

@@ -3,4 +3,8 @@ const _items = {"11382": {"stats": {}, "id": 11382, "icon": "inv_misc_gem_bloods
 function item(id) {
     return _items[id];
 }
-export {item, _items as all}
+function find(name, filter) {
+    let prefix = name.toLowerCase();
+    return Object.values(_items).filter(filter).filter((i)=>i.name.toLowerCase().startsWith(prefix));
+}
+export {item, find, _items as all}

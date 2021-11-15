@@ -22,8 +22,17 @@ a, a:visited {
     margin: 20px;
     padding: 8px;
     z-index: 9;
-    background: white;
+    background: #111;
     border: 1px solid;
+}
+.modal > div {
+    padding: 4px;
+    margin: 2px;
+    background-color:#ffffff09;
+
+}
+.searchbar {
+    width: 100%;
 }
 .itemgrid {
     display: grid;
@@ -37,6 +46,19 @@ a, a:visited {
 }
 .itemgrid .gem, .itemgrid .enchant {
     justify-self: center;
+}
+#stats {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+#stats hr {
+    border-color: #ffffff18;
+}
+#stats > div {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
 }
 #bottomgrid {
     display: grid;
@@ -78,13 +100,13 @@ a, a:visited {
     grid-template:
         "r i i t"
         "h i i t"
-        "c i i t"
+        "c i i t";
 }
 #result {
     grid-area: r;
     min-height: 160px;
 }
-#items {
+#character {
     grid-area: i;
 }
 #config {
@@ -133,6 +155,7 @@ a, a:visited {
 }
 #history table {
     background-color: #ffffff09;
+    border-spacing: 0px;
     width:100%;
 }
 .fieldsets fieldset .btn:hover {
@@ -210,4 +233,21 @@ fieldset hr {
     width: 3px;
     align-self: center;
     cursor: pointer;
+}
+.tt {
+    border-bottom: 1px dotted;
+}
+.tt .ttt {
+    visibility: hidden;
+    max-width:300px;
+    padding: 8px;
+    border-radius: 4px;
+    position: absolute;
+    background-color: #eee;
+    color: #111;
+    z-index: 1;
+}
+.tt:hover .ttt {
+    visibility: visible;
+    white-space: break-spaces;
 }

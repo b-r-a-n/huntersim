@@ -48,9 +48,12 @@ function updateHistory(selector) {
     var results = [];
     while (i < 5) {
         let key = 'prev' + i;
-        let info = JSON.parse(localStorage.getItem(key));
-        let result = info.result;
-        results.push([info.savedTs, result.hunter, result.pet, key]);
+        let item = localStorage.getItem(key);
+        if (item) {
+            let info = JSON.parse(item);
+            let result = info.result;
+            results.push([info.savedTs, result.hunter, result.pet, key]);
+        }
         i++;
     }
     var html = '<legend>Recent</legend><table><tbody>';

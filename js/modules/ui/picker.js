@@ -7,6 +7,7 @@ function canEquip(invSlot, item) {
     switch(invSlot) {
         case 0: return item.slot == 24;
         case 12: return item.slot == 11;
+        case 13:
         case 14: return item.slot == 12;
         case 15: return item.slot == 16;
         case 16: return [13, 21, 17].includes(item.slot);
@@ -49,6 +50,16 @@ function replaceItem(invSlot, item) {
     itemInfo.gems[invSlot] = [];
     delete itemInfo.enchants[invSlot];
     itemInfo.items[invSlot] = item.id;
+    if (item.slot == 17) {
+        itemInfo.items[17] = null;
+        itemInfo.gems[17] = [];
+        delete itemInfo.enchants[17];
+    }
+    if (invSlot == 17 && itemInfo.items[16] && Items.item(itemInfo.items[16]).slot == 17) {
+        itemInfo.items[16] = null;
+        itemInfo.gems[16] = [];
+        delete itemInfo.enchants[16];
+    }
     Settings.updateItems(document.querySelector('#items'), itemInfo.items, itemInfo.gems, itemInfo.enchants, true);
 }
 
@@ -90,6 +101,23 @@ function enchantFilter(inventorySlot) {
     return (s) => { return s.enchId && s.slots.includes(Number(inventorySlot)); };
 }
 
+function addItems(picker, items, inventorySlot, socket, itemType) {
+    for (let result of items) {
+        let onclick = (e) => { 
+            e.preventDefault(); 
+            if (itemType === 'enchant') { replaceEnchant(inventorySlot, result); }
+            else if (itemType === 'gem') { replaceGem(inventorySlot, socket, result); }
+            else { replaceItem(inventorySlot, result); }
+            hide(picker); 
+        };
+        let queryType = (!(itemType === 'enchant') || (inventorySlot == 1 || inventorySlot == 3)) ? 'item' : 'spell';
+        let url = Util.whUrl(queryType, result.id);
+        let itemRow = Util.t2e(`<div><a data-wh-icon-size='tiny' href='${url}'></a></div>`);
+        itemRow[0].onclick = onclick;
+        picker.append(...itemRow);
+    }
+}
+
 function show(target) {
     let left = target.pageX;
     let top = target.pageY;
@@ -118,7 +146,6 @@ function show(target) {
             break;
         }
     }
-    //let item = Items.item(Number(itemNode.dataset.id))
     let picker = document.querySelector('#picker');
     picker.replaceChildren([]);
     let w = (a, b) => {
@@ -129,20 +156,15 @@ function show(target) {
         return 0;
     }
     var results = Object.values(isEnchant ? Spells.all : Items.all).filter(filterFn).sort(w).slice(0,20);
-    for (let result of results) {
-        let onclick = (e) => { 
-            e.preventDefault(); 
-            if (isEnchant) { replaceEnchant(inventorySlot, result); }
-            else if (isGem) { replaceGem(inventorySlot, socket, result); }
-            else { replaceItem(inventorySlot, result); }
-            hide(picker); 
-        };
-        let queryType = (!isEnchant || (inventorySlot == 1 || inventorySlot == 3)) ? 'item' : 'spell';
-        let url = Util.whUrl(queryType, result.id);
-        let itemRow = Util.t2e(`<div><a data-wh-icon-size='tiny' href='${url}'></a></div>`);
-        itemRow[0].onclick = onclick;
-        picker.append(...itemRow);
-    }
+    let searchBar = Util.t2e(`<div><input class='searchbar' type='text'></input></div>`);
+    searchBar[0].oninput = (e) => { 
+        let items = Items.find(e.target.value, filterFn);
+        while (picker.childElementCount > 1) picker.removeChild(picker.lastChild);
+        addItems(picker, items, inventorySlot, socket, node.dataset.type);
+        $WowheadPower.refreshLinks();
+    };
+    picker.append(...searchBar);
+    addItems(picker, results, inventorySlot, socket, node.dataset.type);
     $WowheadPower.refreshLinks();
     document.getElementById('picker').style.left = left;
     document.getElementById('picker').style.top = top;
