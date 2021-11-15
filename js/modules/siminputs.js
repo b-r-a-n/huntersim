@@ -38,6 +38,7 @@ function statsFromBuffs(state) {
     var appliedBuffs = state.passiveBuffs.concat(weaponBuffs);
     for (let buffId of appliedBuffs) {
         let buff = Spells.spell(buffId);
+        if (!buff) { console.error('Unable to find buff', buffId); continue;}
         for (let k of Object.keys(buff.data)) {
             if (k.startsWith('mod')) {
                 let val = buff.data[k];
@@ -56,6 +57,7 @@ function statsFromBuffs(state) {
     }
     for (let buffId of state.petBuffs) {
         let buff = Spells.spell(buffId);
+        if (!buff) { console.error('Unable to find buff', buffId); continue;}
         for (let k of Object.keys(buff.data)) {
             petStats[k] = (petStats[k] || 0) + buff.data[k];
         }
@@ -134,32 +136,6 @@ function create(settings) {
     let ammoId = settings.items[0];
     var ammo = Items.item(ammoId);
     let talents = Talents.decode(settings.encodedTalents);
-    const damageFns = {
-        1: (s, t, d) => {
-            return (d+s.meleeAp(t)*s.meleeBaseSpeed()/14);
-        },
-        75: (s, t, d) => { 
-            return s.ammoDamage()+(s.rangedAp(t)*s.rangedBaseSpeed()/14+s.bonusDamage(t)+d)*s.rangedDamageMod(t);
-        },
-        27050: (s, t, d) => {
-            return d;
-        },
-        27021: (s, t, d) => {
-            return (s.ammoDamage()+s.rangedAp(t)*0.2+205+d+s.bonusDamage(t))*s.rangedDamageMod(t)*s.bonusMod(t,27021);
-        },
-        27019: (s, t, d) => {
-            return (s.rangedAp(t)*0.15+273)*s.rangedDamageMod(t)*s.bonusMod(t,27019);
-        },
-        34027: (s, t, d) => {
-            return (d+s.meleeAp(t)*s.meleeBaseSpeed()/14+127);
-        },
-        34120: (s, t, d) => {
-            return (s.rangedAp(t)*0.2+150+d*2.8/s.rangedBaseSpeed()+s.bonusDamage(t))*s.rangedDamageMod(t)*s.bonusMod(t,34120);
-        },
-        35298: (s, t, d) => {
-            return d;
-        }
-    }
     // Thoridal doesn't use ammo
     if (settings.items[16] == 34334) {
         ammo = null;
@@ -168,7 +144,7 @@ function create(settings) {
         1, 'orc', Items.item(settings.items[16]), Items.item(settings.items[17]), rangedWeapon, ammo, talents, Spells
     );
     let pet = new Pet(2, player, Spells);
-    let target = new Target(3, settings.targetArmor, damageFns);
+    let target = new Target(3, settings.targetArmor);
     let buffsInfo = statsFromBuffs(settings);
     let talentsInfo = statsFromTalents(talents);
     let modifiers =  {}
@@ -197,6 +173,10 @@ function create(settings) {
                 petModifiers[k] = (petModifiers[k] || []).concat(val);
             }
         }    
+    }
+    if (settings.race === 'orc') {
+        petModifiers['moddmg'] = petModifiers['moddmg'] || [];
+        petModifiers['moddmg'].push(0.05);
     }
     let playerStats = {
         RACE_SOURCE_ID: getStats(Races.race(settings.race).stats),
@@ -245,9 +225,9 @@ function create(settings) {
         spell.cd -= (player.talents.improvedArcaneShot*200);
         modifiedSpells[27019] = spell;
     }
-    if (player.talents.goForTheThroat) {
+    if (player.talents.gofortheThroat) {
         let spell = JSON.parse(JSON.stringify(Spells.spell(34954)));
-        spell.mods.focus = (player.talents.goForTheThroat*25);
+        spell.mods.focus = (player.talents.gofortheThroat*25);
         modifiedSpells[34954] = spell;
     }
     if (player.talents.masterTactician) {
@@ -255,9 +235,9 @@ function create(settings) {
         spell.mods.crit = (player.talents.masterTactician*0.02);
         modifiedSpells[34839] = spell;
     }
-    if (player.talents.improvedHawk) {
+    if (player.talents.improvedAspectoftheHawk) {
         let spell = JSON.parse(JSON.stringify(Spells.spell(6150)));
-        spell.mods.modrhst = (player.talents.improvedHawk*0.05);
+        spell.mods.modrhst = (player.talents.improvedAspectoftheHawk*0.05);
         modifiedSpells[6150] = spell;
     }
     var procs = [];
@@ -303,11 +283,14 @@ function create(settings) {
         }
         if (required.talent && player.talents[required.talent]) { 
             let auras = player.abilityAuras[aura.abilityId] || [];
+            let petAuras = pet.abilityAuras[aura.abilityId] || [];
             for (let k in aura.mods) {
                 aura.mods[k] *= player.talents[required.talent];
             }
             auras.push(aura);
+            petAuras.push(aura);
             player.abilityAuras[aura.abilityId] = auras; 
+            pet.abilityAuras[aura.abilityId] = auras; 
             continue; 
         }
     }

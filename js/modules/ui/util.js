@@ -20,7 +20,7 @@ function radiobox(options, name, addNone=false) {
     var selected = false;
     for (let option of options) {
         selected = selected || option.checked;
-        html += `<label><input type='radio' data-id=${option.id} name=${name} ${option.checked ? ' checked' : ''}>`;
+        html += `<label class='btn'><input class='${option.cls}' type='radio' data-id=${option.id} name=${name} ${option.checked ? ' checked' : ''}>`;
         html += `<a href=${option.url}></a></label>`;
     }
     if (addNone) {
@@ -32,7 +32,7 @@ function radiobox(options, name, addNone=false) {
 function checkbox(options) {
     var html = '';
     for (let option of options) {
-        html += `<label><input type='checkbox' data-id=${option.id}${option.checked ? ' checked' : ''}>`;
+        html += `<label class='btn'><input class='${option.cls}' type='checkbox' data-id=${option.id}${option.checked ? ' checked' : ''}>`;
         html += `<a href=${option.url}></a></label>`;
     }
     return t2e(html);

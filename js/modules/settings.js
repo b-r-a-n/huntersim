@@ -39,7 +39,7 @@ const defaultSettings = {
     passiveBuffs: [
         33288, // Warp Burger
         28553, // Major Agi Elixir
-        22840, // Major Mageblood
+        28570, // Major Mageblood
         25898, // kings
         //27044, // hawk
         27141, // might

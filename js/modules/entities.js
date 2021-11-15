@@ -274,6 +274,7 @@ class Hunter extends Entity {
         let hunter = new Hunter(this.id, this.race, this.mhWeapon, this.ohWeapon, this.rangedWeapon, this.ammo, JSON.parse(JSON.stringify(this.talents)), this.spells);
         hunter.resource = JSON.parse(JSON.stringify(this.resource));
         hunter.auras = JSON.parse(JSON.stringify(this.auras));
+        hunter.abilityAuras = JSON.parse(JSON.stringify(this.abilityAuras));
         return hunter;
     }
     rangedAp(target) {
@@ -311,7 +312,7 @@ class Hunter extends Entity {
             let reduction = this.talents.efficiency * 0.02;
             n += reduction;
         }
-        return s.scr * n;
+        return 1 - (s.scr * n);
     }
 }
 class Target {
@@ -347,6 +348,7 @@ class Pet extends Entity {
     copy() {
         let p =  new Pet(this.id, this.owner, this.spells);
         p.auras = JSON.parse(JSON.stringify(this.auras));
+        p.abilityAuras = JSON.parse(JSON.stringify(this.abilityAuras));
         return p;
     }
     resourcePerHit(target) {

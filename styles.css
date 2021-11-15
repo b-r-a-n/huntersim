@@ -1,0 +1,213 @@
+body {
+    background-color: #111;
+    color: #eee;
+}
+input[type='checkbox'], input[type='radio'] {
+    height: 0px;
+    width: 0px;
+    opacity: 0;
+}
+input[type='checkbox']:not(:checked)+a, input[type='radio']:not(:checked)+a {
+    filter: grayscale();
+}
+a, a:visited {
+    text-decoration: none;
+    color: #ffd100;
+}
+#picker {
+    display:none;
+}
+.modal {
+    position: absolute;
+    margin: 20px;
+    padding: 8px;
+    z-index: 9;
+    background: white;
+    border: 1px solid;
+}
+.itemgrid {
+    display: grid;
+    grid-template-columns: auto 1fr 18px 18px 18px 18px;
+}
+.itemgrid span {
+    display: inline;
+}
+.itemgrid div, .itemgrid span {
+    padding: 4px;
+}
+.itemgrid .gem, .itemgrid .enchant {
+    justify-self: center;
+}
+#bottomgrid {
+    display: grid;
+    grid-template:
+        "ra cs ab sb"
+        "pb cs ab sb"
+        "pa cs ab db"
+        ".  mh oh db";
+}
+#races {
+    grid-area: ra;
+}
+#petBuffs {
+    grid-area: pb;
+}
+#petAbilities {
+    grid-area: pa;
+}
+#consumes {
+    grid-area: cs;
+}
+#activeBuffs {
+    grid-area: ab;
+}
+#staticBuffs {
+    grid-area: sb;
+}
+#debuffs {
+    grid-area: db;
+}
+#mhStones {
+    grid-area: mh;
+}
+#ohStones {
+    grid-area: oh;
+}
+#topgrid {
+    display: grid;
+    grid-template:
+        "r i i t"
+        "h i i t"
+        "c i i t"
+}
+#result {
+    grid-area: r;
+    min-height: 160px;
+}
+#items {
+    grid-area: i;
+}
+#config {
+    grid-area: c;
+}
+#history {
+    grid-area: h;
+}
+#talents {
+    grid-area: t;
+}
+.fieldsets fieldset {
+    display: inline;
+    vertical-align: top;
+    border-color: #ffffff18;
+}
+.fieldsets fieldset input {
+    background-color:#ffffff09;
+    color:#eee;
+    border: none;
+    padding: 4px;
+}
+.fieldsets fieldset div {
+    white-space: nowrap;
+}
+.formgrid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+.formgrid span {
+    align-self: center;
+}
+.formgrid input {
+    margin: 2px;
+    padding: 6px;
+}
+.fieldsets fieldset label {
+    display: block;
+    padding: 4px;
+    margin: 2px;
+    background: #ffffff09;
+    white-space: nowrap;
+}
+.fieldsets fieldset .btn {
+    cursor: pointer;
+}
+#history table {
+    background-color: #ffffff09;
+    width:100%;
+}
+.fieldsets fieldset .btn:hover {
+    background:#ffffff45;
+}
+a.icon {
+    padding-left: 18px !important;
+}
+.icon.orc {
+    background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_orc_male.gif") left center no-repeat;
+}
+.icon.troll {
+    background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_troll_male.gif") left center no-repeat;
+}
+.icon.tauren {
+    background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_tauren_male.gif") left center no-repeat;
+}
+.icon.bloodelf {
+    background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_bloodelf_male.gif") left center no-repeat;
+}
+.icon.dwarf {
+    background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_dwarf_male.gif") left center no-repeat;
+}
+.icon.nightelf {
+    background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_nightelf_male.gif") left center no-repeat;
+}
+.icon.draenei {
+    background: url("https://wow.zamimg.com/images/wow/icons/tiny/race_draenei_male.gif") left center no-repeat;
+}
+div.btn {
+    text-align: center;
+    padding: 8px;
+    margin: 10px;
+    border: 1px solid;
+    cursor: pointer;
+    background: #ffffff09;
+}
+div.btn:hover {
+    background: #ffffff45;
+}
+fieldset hr {
+    border-color: inherit;
+}
+.emptyred {
+    border: solid 2px red;
+    height: 3px;
+    width: 3px;
+    align-self: center;
+    cursor: pointer;
+}
+.emptyblue {
+    border: solid 2px blue;
+    height: 3px;
+    width: 3px;
+    align-self: center;
+    cursor: pointer;
+}
+.emptyyellow {
+    border: solid 2px yellow;
+    height: 3px;
+    width: 3px;
+    align-self: center;
+    cursor: pointer;
+}
+.emptygreen {
+    border: solid 2px green;
+    height: 3px;
+    width: 3px;
+    align-self: center;
+    cursor: pointer;
+}
+.emptymeta {
+    border: solid 2px gray;
+    height: 3px;
+    width: 3px;
+    align-self: center;
+    cursor: pointer;
+}

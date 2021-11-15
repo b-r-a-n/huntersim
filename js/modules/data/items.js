@@ -3,4 +3,4 @@ const _items = {"11382": {"stats": {}, "id": 11382, "icon": "inv_misc_gem_bloods
 function item(id) {
     return _items[id];
 }
-export {item}
+export {item, _items as all}

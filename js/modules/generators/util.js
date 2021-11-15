@@ -21,7 +21,7 @@ function makeGenerators(simInputs) {
         new AuraHandler(),
         new ProcHandler(simInputs.procs),
         new BuffHandler(),
-        new AbilityGenerator({id: -1}, simInputs.buffs.concat(simInputs.debuffs)),
+        new AbilityGenerator(-1, simInputs.buffs.concat(simInputs.debuffs)),
         new AbilityGenerator(simInputs.player.id, simInputs.playerRules),
         new AbilityGenerator(simInputs.pet.id, simInputs.petRules),
     ]

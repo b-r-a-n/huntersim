@@ -51,12 +51,12 @@ const _procRequirements = {
     32505: {items: [32505], count: 1},
     650: {items: [28228, 27474, 28275, 27874, 27801], count: 4},
     34026: {none: true},
-    19556: {talent: 'improvedHawk'},
-    34692: {talent: 'beastWithin'},
+    19556: {talent: 'improvedAspectoftheHawk'},
+    34692: {talent: 'theBeastWithin'},
     19625: {talent: 'frenzy'},
-    34954: {talent: 'goForTheThroat'},
+    34954: {talent: 'gofortheThroat'},
     34839: {talent: 'masterTactician'},
-    34499: {talent: 'thrillOfTheHunt'},
+    34499: {talent: 'thrilloftheHunt'},
 };
 
 export {_procs as all, proc, requirements}
