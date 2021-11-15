@@ -57,7 +57,7 @@ function runSim() {
         let result = A.damageBySource(sim.eventLog);
         let dps = result[inputs.player.id] + result[inputs.pet.id];
         if (!min || dps < min) min = dps;
-        if (!max || dps > min) max = dps;
+        if (!max || dps > max) max = dps;
         let abilityDPS = A.damageByAbility(sim, inputs.player.id);
         for (let k in abilityDPS) {
             aggregateInfo[k] = aggregateInfo[k] || [0,0,0];
@@ -69,12 +69,12 @@ function runSim() {
         aggregateInfo['pet'][2] += result[inputs.pet.id];
         i++;
     }
-    let total = 0;
+    var total = 0;
     for (let k in aggregateInfo) {
         aggregateInfo[k][0] /= i;
         aggregateInfo[k][1] /= i;
         aggregateInfo[k][2] /= i;
-        if (k !== 'pet') total += (aggregateInfo[k][2]/i)
+        if (k !== 'pet') total += (aggregateInfo[k][2])
     }
     saveRecent(settings, {hunter: total, pet: aggregateInfo['pet'][2]});
     UIResults.update(document, lastSim, aggregateInfo, min, max);
