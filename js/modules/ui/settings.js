@@ -300,11 +300,12 @@ function get(document) {
     settings.passiveBuffs = passive.concat(consumes);
     settings.petBuffs = Array.from(document.querySelectorAll('#petBuffs input:checked'), n=>Number(n.dataset.id));
     settings.petAbilities = Array.from(document.querySelectorAll('#petAbilities input:checked'), n=>Number(n.dataset.id));
-    // Stones
-    settings.mhStone = Number(document.querySelector('#mhStones input:checked').dataset.id);
-    settings.ohStone = Number(document.querySelector('#ohStones input:checked').dataset.id);
-    // Drums
-    settings.drums = Number(document.querySelector('#activeBuffs input.drum:checked').dataset.id);
+    let mhNode = document.querySelector('#mhStones input:checked');
+    if (mhNode) settings.mhStone = Number(mhNode.dataset.id);
+    let ohNode = document.querySelector('#ohStones input:checked');
+    if (ohNode) settings.ohStone = Number(ohNode.dataset.id);
+    let drumsNode = document.querySelector('#activeBuffs input.drum:checked');
+    if (drumsNode) settings.drums = Number(drumsNode.dataset.id);
     settings.numLusts = document.querySelectorAll('#activeBuffs input.lust:checked').length;
     settings.numFerocious = document.querySelectorAll('#activeBuffs input.ferocious:checked').length;
     settings.debuffs = Array.from(document.querySelectorAll('#debuffs input:checked'), n=>Number(n.dataset.id));

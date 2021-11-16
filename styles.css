@@ -38,9 +38,11 @@ a, a:visited {
 #abilityinfo {
     border-left: 2px solid #ffffff18;
 }
+#abilityinfo thead tr {
+    font-size: x-small;
+}
 #abilityinfo td {
-    padding: 4px;
-
+    padding: 2px;
 }
 .dpsgrid {
     justify-self: center;
@@ -177,14 +179,15 @@ a, a:visited {
 .fieldsets fieldset .btn {
     cursor: pointer;
 }
-#history table {
-    background-color: #ffffff09;
-    border-collapse: collapse;
-    border-spacing: 0px;
+#history .btn {
     width:100%;
+    padding: 2px;
+    margin: 2px;
+    text-align: left;
 }
-#history table tr:not(:first-child) {
-    border-top: solid 4px #111;
+#history .btn span:not(:first-child) {
+    float: right;
+    text-align: right;
 }
 .fieldsets fieldset .btn:hover {
     background:#ffffff45;

@@ -24,7 +24,7 @@ function radiobox(options, name, addNone=false) {
         html += `<a href=${option.url}></a></label>`;
     }
     if (addNone) {
-        html += `<label><input type='radio' name=${name} ${selected ? '' : 'checked'}>None</label>`;
+        html += `<label class='btn'><input type='radio' name=${name} ${selected ? '' : 'checked'}>None</label>`;
     }
     return t2e(html);
 }

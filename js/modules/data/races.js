@@ -1,7 +1,7 @@
 const _races = {
     orc: {
         id: 'orc', name: 'Orc',
-        stats: {str: 67, agi: 148, sta: 110, int: 74, spi: 86, hp: 3488, mana: 3253, petmoddmg: 0.05}
+        stats: {ap: 130, str: 67, agi: 148, sta: 110, int: 74, spi: 86, hp: 3488, mana: 3253, petmoddmg: 0.05}
     },
     troll: {
         id: 'troll', name: 'Troll', 

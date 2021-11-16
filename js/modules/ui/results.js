@@ -56,26 +56,24 @@ function updateHistory(selector) {
         }
         i++;
     }
-    var html = '<legend>Recent</legend><table><tbody>';
+    var html = '<legend>Recent</legend>';
+    selector.replaceChildren(...Util.t2e(html));
     for (let result of results.sort((a,b)=>{ 
         if (a[0] < b[0]) return 1;
         if (a[0] > b[0]) return -1;
         return 0;
     })) {
         let minutesAgo = Math.floor((Date.now() - result[0])/60000);
-        html += `<tr data-key='${result[3]}' class='btn'><td>${minutesAgo}m ago</td><td>DPS: ${Math.floor(result[1]+result[2])}</td></tr>`;
-    }
-    html += '</tbody></table>';
-    let elements = Util.t2e(html);
-    for (let element of elements) {
-        if (element.className === 'btn') element.onclick = (e) => { 
-            let storageKey = e.srcElement.dataset.key;
+        html = `<div data-key='${result[3]}' class='btn'><span>${minutesAgo}m ago</span><span>DPS: ${Math.floor(result[1]+result[2])}</span></div>`;
+        let el = Util.t2e(html);
+        el[0].onclick = (e) => { 
+            let storageKey = e.target.dataset.key;
             let settings = JSON.parse(localStorage.getItem(storageKey));
             if (settings.savedTs) delete settings.savedTs;
             UISettings.update(document, settings);
         }
+        selector.append(...el);
     }
-    selector.replaceChildren(...elements);
 }
 
 function update(document, simulation, aggregateInfo, min, max) {
@@ -104,7 +102,7 @@ function update(document, simulation, aggregateInfo, min, max) {
         }
         totalDps += vals[2];
     }
-    let abilityTable = makeTable('Ability Breakdown', tableInfo);
+    let abilityTable = makeTable('', tableInfo, ['', 'Casts', '% Crit', 'DPS']);
     let html = `<div class='resultgrid'><div class='dpsgrid'><div>${Math.floor(10*totalDps)/10}</div><div>${Math.floor(10*min)/10} - ${Math.floor(10*max)/10}</div></div><div id='abilityinfo'></div></div>`
     document.querySelector('#result').append(...Util.t2e(html));
     document.querySelector('#abilityinfo').replaceChildren(...abilityTable);
