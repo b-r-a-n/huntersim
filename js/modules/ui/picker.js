@@ -152,9 +152,12 @@ const _gems = [
     38550
 ];
 
-function gemFilter(phase) { 
+function gemFilter(phase, color) { 
     let filterGems = _gems;
-    return (i) => { return (i.class == 3) && filterGems.includes(i.id); };
+    let isMeta = color === 'meta';
+    return (i) => { 
+        return (i.phase <= phase && i.class == 3 && (isMeta ? (i.subclass == 6) : (i.subclass != 6))) && filterGems.includes(i.id); 
+    };
 }
 
 function enchantFilter(inventorySlot) {
@@ -195,7 +198,7 @@ function show(target) {
             break;
         }
         case 'gem': {
-            filterFn = gemFilter(2);
+            filterFn = gemFilter(2, node.dataset.color);
             isGem = true;
             socket = Number(node.dataset.socket);
             break;

@@ -154,15 +154,15 @@ function updateItems(selector, itemIds, gemIds, enchantIds, dispatch=false) {
         html += `<div></div>`;
         let item = Items.item(slotItemId);
         while (gemSocketIndex < 3) {
-            if (slotGemIds[gemSocketIndex]) {
+            let socketInfo = item['socket'+(gemSocketIndex+1)];
+            let color = socketInfo ? colorForSocket(socketInfo) : null;
+            if (slotGemIds[gemSocketIndex] && socketInfo) {
                 let gemId = slotGemIds[gemSocketIndex];
                 let gemUrl = Util.whUrl('item', gemId);
-                html += `<a class='gem' data-id=${gemId} data-slot=${invSlot} data-socket=${gemSocketIndex} data-type=gem data-wh-rename-link='false' href=${gemUrl}></a>`;
+                html += `<a class='gem' data-id=${gemId} data-slot=${invSlot} data-socket=${gemSocketIndex} data-color=${color} data-type=gem data-wh-rename-link='false' href=${gemUrl}></a>`;
             } else {
-                let emptySocket = item['socket'+(gemSocketIndex+1)];
-                if (emptySocket) {
-                    let color = colorForSocket(emptySocket);
-                    html += `<div data-slot=${invSlot} data-socket=${gemSocketIndex} data-type=gem class='empty${color}'></div>`;
+                if (color) {
+                    html += `<div data-slot=${invSlot} data-socket=${gemSocketIndex} data-type=gem data-color=${color} class='empty${color}'></div>`;
                 } else {
                     html += '<span></span>';
                 }
