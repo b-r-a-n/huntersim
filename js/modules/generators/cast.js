@@ -27,7 +27,7 @@ class CastGenerator {
         this.casts.splice(nextExpirationId, 1);
         return {
             ts: minTs,
-            type: 'cast',
+            type: cast.type,
             abilityId: cast.abilityId,
             sourceId: cast.sourceId,
             targetId: cast.targetId,
@@ -41,6 +41,7 @@ class CastGenerator {
         switch(e.type) {
             case 'begincast': {
                 this.casts.push({
+                    type: 'cast',
                     endTs: e.ts + e.duration,
                     abilityId: e.abilityId,
                     sourceId: e.sourceId,
@@ -51,6 +52,21 @@ class CastGenerator {
                     ts: e.ts
                 });
                 break;
+            }
+            case 'cast': {
+                let ability = sim.abilities(e.abilityId);
+                if (ability.type === 'energize') {
+                    this.casts.push({
+                        type: 'energize',
+                        endTs: e.ts + e.duration,
+                        abilityId: e.abilityId,
+                        sourceId: e.sourceId,
+                        targetId: e.targetId,
+                        school: e.school,
+                        cost: e.cost,
+                        ts: e.ts
+                    });
+                }
             }
         }
     }

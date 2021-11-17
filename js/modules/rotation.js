@@ -18,6 +18,10 @@ function trinketUsable(ability, source, target) {
     return trinketActive.length < 1;
 }
 
+function manaLow(ability, source, target) {
+    return source.resource.type === 'mana' && (source.resource.max - source.resource.current > 2000);
+}
+
 function missingFromTarget(ability, source, target) { 
     return !target.auras.map(a=>a.abilityId).includes(ability.id);
 }
@@ -36,7 +40,7 @@ const _trinketAbilities = [
     {itemId:28121, abilityId:34106}, // icon
 ];
 
-function defaultHunterRotation(hunter, pet, target, items, cdTs=15000) {
+function defaultHunterRotation(hunter, pet, target, items, potions, cdTs=15000) {
     let rules = [];
     if (hunter.talents.bestialWrath) {
         rules.push({abilityId: 19574, minTs: cdTs, targetId: pet.id, usable: hasResource});
@@ -48,7 +52,18 @@ function defaultHunterRotation(hunter, pet, target, items, cdTs=15000) {
         rules.push({abilityId: 26296, minTs: cdTs, targetId: hunter.id, usable: hasResource});
     }
     rules.push({abilityId: 3045, minTs: cdTs, targetId: hunter.id, usable: hasResource});
-    rules.push({abilityId: 28507, minTs: cdTs, targetId: hunter.id, usable: hasResource});
+    // Fel-mana
+    if (potions.includes(38929)) {
+        rules.push({abilityId: 38929, targetId: hunter.id, usable: manaLow});
+    }
+    // Super mana
+    if (potions.includes(28499)) {
+        rules.push({abilityId: 28499, targetId: hunter.id, usable: manaLow});
+    }
+    // Haste potion
+    if (potions.includes(28507)) {
+        rules.push({abilityId: 28507, minTs: cdTs, targetId: hunter.id, usable: always});
+    }
     for (let trinket of _trinketAbilities) {
         if (items[13].id == trinket.itemId || items[14] == trinket.itemId) {
             rules.push({abilityId: trinket.abilityId, minTs: cdTs, targetId: hunter.id, usable: trinketUsable});

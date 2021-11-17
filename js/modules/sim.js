@@ -27,7 +27,7 @@ class RandFn {
     }
 }
 class Simulation {
-    constructor(simTime, seed, player, pet, target, modSpells, spells) {
+    constructor(simTime, seed, player, pet, target, modSpells, spells, abilityGroups) {
         this.ts = 0;
         this.simTime = simTime;
         this.rand = new RandFn(seed);
@@ -39,6 +39,7 @@ class Simulation {
         this.eventLog = [];
         this.modSpells = JSON.parse(JSON.stringify(modSpells));
         this._spells = spells;
+        this._abilityGroups = abilityGroups;
     }
     get entities() {
         let ents = {};
@@ -52,6 +53,9 @@ class Simulation {
     }
     abilities(id) {
         return this.modSpells[id] || this._spells[id];
+    }
+    abilityGroups(id) {
+        return this._abilityGroups[id] || [];
     }
     reset() {
         this.eventLog = [];

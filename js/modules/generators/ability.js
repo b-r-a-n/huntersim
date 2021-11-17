@@ -91,7 +91,13 @@ class AbilityGenerator {
                     let ability = sim.abilities(e.abilityId);
                     if (!ability) return;
                     let cd = Math.max((ability.cd || 0) - e.duration, 0.0);
-                    this.abilityCds[e.abilityId] = e.ts + cd;
+                    if (ability.cdGroup) {
+                        for (let aId of sim.abilityGroups(ability.cdGroup)) {
+                            this.abilityCds[aId] = e.ts + cd;
+                        }
+                    } else {
+                        this.abilityCds[e.abilityId] = e.ts + cd;
+                    }
                     this.castEndTs = e.ts;
                     let rules = this.rules.filter(r=>r.abilityId==e.abilityId);
                     if (rules.length > 0 && rules[0].repeatInterval) {

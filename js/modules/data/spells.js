@@ -4,6 +4,9 @@ function spell(id) {
 function allStats(val) { return {str: val, agi: val, spi: val, int: val, sta: val} }
 const rangedAbilities = [75, 27019, 27021, 34120];
 const petAbilities = [1, 27050, 34027, 35298];
+const abilityGroups = {
+    1: [28507, 28499, 38929], // Potions
+};
 const _spells = {
     // Auto Attack
     1: {id: 1, melee: true, school: 'physical', weaponDamage: true},
@@ -97,7 +100,10 @@ const _spells = {
     19574: {id: 19574, gcd: false, cd: 120000, castTime: 0, cost: 325, school: 'physical', type: 'buff', auraId: 19574, mods: {moddmg: 0.5}, duration: 18000}, // Bestial Wrath
     20572: {id: 20572, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 20572, mods: {ap: 282}, duration: 15000}, // Blood Fury
     3045: {id: 3045, gcd: false, cd: 300000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 3045, mods: {modhst: 0.4}, duration: 15000}, // Rapid Fire
-    28507: {id: 28507, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 28507, mods: {hstr: 400}, duration: 15000}, // Haste Potion
+    28507: {id: 28507, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 28507, mods: {hstr: 400}, duration: 15000, potion: true, cdGroup: 1}, // Haste Potion
+    28499: {id: 28499, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'energize', mods: {mana: 2400}, potion: true, cdGroup: 1}, // Mana Potion
+    38929: {id: 38929, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 38929, mods: {mps: 667}, duration: 24000, potion: true, cdGroup: 1}, // Fel-mana Potion
+    27869: {id: 27869, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'energize', mods: {mana: 667}, rune: true}, // Dark rune
     35166: {id: 35166, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 35166, mods: {ap: 278}, duration: 20000}, // Bloodlust Brooch
     51955: {id: 51955, gcd: false, cd: 120000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 51955, mods: {ap: 278}, duration: 20000}, // Brew
     26296: {id: 26296, gcd: false, cd: 180000, castTime: 0, cost: 0, school: 'physical', type: 'buff', auraId: 26296, mods: {hstp: 0.1}, duration: 10000}, // Berserking
@@ -118,4 +124,4 @@ const _spells = {
     100001: {id: 100001, gcd: false, duration: 3000, castTime: 0, cost: 0, school: 'physical', type: 'buff', mods: {cankc: true}},
 };
 
-export {_spells as all, spell, rangedAbilities, petAbilities};
+export {_spells as all, abilityGroups, spell, rangedAbilities, petAbilities};

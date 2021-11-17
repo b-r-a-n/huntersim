@@ -353,7 +353,7 @@ function create(settings) {
         auras: auras,
         modifiedSpells: modifiedSpells,
         procs: procs,
-        playerRules: Rotation.defaultHunterRotation(player, pet, target, settings.items),
+        playerRules: Rotation.defaultHunterRotation(player, pet, target, settings.items, settings.potions || []),
         petRules: Rotation.defaultPetRotation(pet, settings.petAbilities, target)
     };
 }

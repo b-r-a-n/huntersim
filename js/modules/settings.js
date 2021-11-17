@@ -36,6 +36,14 @@ const defaultSettings = {
         14325,
         27226
     ], 
+    potions: [
+        28507, // haste
+        28499, // super mana
+        //38929, // fel-mana
+    ],
+    runes: [
+        27869,
+    ],
     passiveBuffs: [
         33288, // Warp Burger
         28553, // Major Agi Elixir

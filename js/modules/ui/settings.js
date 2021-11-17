@@ -211,7 +211,7 @@ function update(document, settings) {
     let foods = foodBuffs(settings);
     let battleElixirs = elixirs(settings, 'battleElixir');
     let guardianElixirs = elixirs(settings, 'guardianElixir');
-    let scrolls = spells(settings.passiveBuffs, 'scroll', s=>s.scroll);
+    let scrolls = spells(settings.passiveBuffs || [], 'scroll', s=>s.scroll);
     
     document.querySelector('#consumes').replaceChildren(...Util.t2e('<legend>Consumes</legend>'));
     document.querySelector('#consumes').append(...foods);
@@ -246,6 +246,14 @@ function update(document, settings) {
     let totems = spells(settings.totems, 'totem', s=>s.shaman||s.totem);
     document.querySelector('#activeBuffs').append(...totems);
     document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
+
+    // Potions
+    let potions = spells(settings.potions || [], 'potion', s=>s.potion);
+    let runes = spells(settings.runes || [], 'rune', s=>s.rune);
+    document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
+    document.querySelector('#activeBuffs').append(...potions);
+    document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
+    document.querySelector('#activeBuffs').append(...runes);
 
     // Drums
     document.querySelector('#activeBuffs').append(...drums(settings));
@@ -310,6 +318,8 @@ function get(document) {
     settings.numFerocious = document.querySelectorAll('#activeBuffs input.ferocious:checked').length;
     settings.debuffs = Array.from(document.querySelectorAll('#debuffs input:checked'), n=>Number(n.dataset.id));
     settings.totems = Array.from(document.querySelectorAll('#activeBuffs input.totem:checked'), n=>Number(n.dataset.id));
+    settings.potions = Array.from(document.querySelectorAll('#activeBuffs input.potion:checked'), n=>Number(n.dataset.id));
+    settings.runes = Array.from(document.querySelectorAll('#activeBuffs input.rune:checked'), n=>Number(n.dataset.id));
     let itemInfo = getItems(document);
     settings.items = itemInfo.items;
     settings.gems = itemInfo.gems;

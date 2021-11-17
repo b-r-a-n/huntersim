@@ -46,7 +46,8 @@ function runSim() {
         let generators = makeGenerators(inputs);
         let sim = new Simulation(
             inputs.simTime, inputs.seed, inputs.player,
-            inputs.pet, inputs.target, inputs.modifiedSpells, Spells.all
+            inputs.pet, inputs.target, inputs.modifiedSpells, 
+            Spells.all, Spells.abilityGroups
         );
         for (let aura of inputs.auras) {
             let tar = sim.entities[aura.targetId];
