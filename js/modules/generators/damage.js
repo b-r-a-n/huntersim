@@ -82,4 +82,4 @@ class DamageGenerator {
         }
     }
 }
-export {DamageGenerator}
+export {DamageGenerator, hitTable}

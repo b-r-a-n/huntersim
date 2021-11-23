@@ -296,6 +296,17 @@ function create(settings) {
     }
     // Special case auras
     let auras = [];
+    // Hit suppression
+    auras.push({
+        targetId: player.id,
+        sourceId: 0,
+        mods: {hit: -0.01}
+    });
+    auras.push({
+        targetId: pet.id,
+        sourceId: 0,
+        mods: {hit: -0.01}
+    });
     // Ferocious
     for (let idx in Array(settings.numFerocious).fill(0)) {
         auras.push({
