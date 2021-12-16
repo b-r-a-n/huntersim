@@ -20,7 +20,7 @@ function spellId(k, points) {
 }
 
 const _talents = {
-    improvedAspectoftheHawk: { name: 'Improved Aspect of the Hawk'},
+    improvedAspectoftheHawk: { name: 'Improved Aspect of the Hawk', procs: [2]},
     enduranceTraining: { name: 'Endurance Training'},
     focusedFire: { name: 'Focused Fire', mods: {moddmg: 0.01}},
     improvedApsectoftheMonkey: { name: 'Improved Aspeect of the Monkey'},
@@ -35,17 +35,17 @@ const _talents = {
     intimidation: { name: 'Intimidation'},
     bestialDiscipline: { name: 'Bestial Discipline', mods: {petfps: 25 * 0.5}}, // TODO
     animalHandler: { name: 'Animal Handler', mods: {pethit: 0.02}},
-    frenzy: { name: 'Frenzy'},
-    ferociousInspiration: { name: 'Ferocious Inspiration'},
-    bestialWrath: { name: 'Bestial Wrath'},
+    frenzy: { name: 'Frenzy', procs: [3]},
+    ferociousInspiration: { name: 'Ferocious Inspiration', procs: [4, 5]},
+    bestialWrath: { name: 'Bestial Wrath', rules: [1]},
     catlikeReflexes: { name: 'Catlike Reflexes'},
     serpentsSwiftness: { name: "Serpent's Swiftness", mods: {petmodhst: 0.04, modhst: 0.04}},
-    theBeastWithin: { name: 'The Beast Within'},
+    theBeastWithin: { name: 'The Beast Within', procs: [6]},
     improvedConcussiveShot: { name: 'Improved Concussive Shot'},
     lethalShots: { name: 'Lethal Shots', mods: {rcrit: 0.01}},
-    improvedHuntersMark: "Improved Hunter's Mark",
-    efficiency: { name: 'Efficiency'},
-    gofortheThroat: { name: 'Go for the Throat'},
+    improvedHuntersMark: {name: "Improved Hunter's Mark", mods:{}},
+    efficiency: { name: 'Efficiency', mods: {}},
+    gofortheThroat: { name: 'Go for the Throat', procs: [7]},
     improvedArcaneShot: { name: 'Improved Arcane Shot'},
     aimedShot: { name: 'Aimed Shot'},
     rapidKilling: { name: 'Rapid Killing'},

@@ -5,6 +5,23 @@
         <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
         <script src="https://wow.zamimg.com/widgets/power.js"></script>
         <script type="module" src="./js/main.js"></script>
+        <script src='pkg/rusthuntersim.js'></script>
+        <script>
+            const { get_spells, get_stats, run_sim, Stats } = wasm_bindgen;
+            async function load_data() {
+                await wasm_bindgen('./pkg/rusthuntersim_bg.wasm');
+                let passiveBuffs = get_spells('passive_buff');
+                let activeBuffs = get_spells('active_buff');
+                let activeDebuffs = get_spells('active_debuff');
+                let abilities = get_spells('ability');
+                return {
+                    passiveBuffs: passiveBuffs, 
+                    activeBuffs: activeBuffs, 
+                    activeDebuffs: activeDebuffs,
+                    abilities: abilities
+                };
+            }
+        </script>
         <link rel='stylesheet' href='styles.css'></style>
         <title>TBC Hunter Sim</title>
     </head>
@@ -42,14 +59,13 @@
                 <fieldset id='history'><legend>History</legend></fieldset>
                 <fieldset id='talents'></fieldset>
             </div>
-            <div id='bottomgrid' class='fieldsets'>
-                <fieldset id='consumes'></fieldset>
-                <fieldset id='activeBuffs'></fieldset>
-                <fieldset id='staticBuffs'></fieldset>
-                <fieldset id='debuffs'></fieldset>
+            <div id='newgrid' class='fieldsets'>
                 <fieldset id='races'></fieldset>
-                <fieldset id='petBuffs'></fieldset>
-                <fieldset id='petAbilities'></fieldset>
+                <fieldset id='passiveBuffs'></fieldset>
+                <fieldset id='activatedBuffs'></fieldset>
+                <fieldset id='activatedDebuffs'></fieldset>
+                <fieldset id='activatedItems'></fieldset>
+                <fieldset id='abilities'></fieldset>
                 <fieldset id='mhStones'></fieldset>
                 <fieldset id='ohStones'></fieldset>
             </div>

@@ -71,29 +71,29 @@ const _spells = {
     34499: {id: 34499, cd: 0, duration: 0, type: 'energize', mods: {mana: 0}}, // Thrill
     46939: {id: 46939, cd: 0, duration: 0, type: 'energize', mods: {mana: 8}}, // Black Bow
     25076: {id: 25076, type: 'buff', mods: {modhst: 0.3, moddmg: -0.15}, icon: 'spell_nature_guardianward', petFamily: ['ravager']}, // Cobra Reflexes
-    28553: {id: 28553, uniqueType: 'battle', icon: 'inv_potion_127', data: {agi: 35, critr: 20}, battleElixir: true},
-    17538: {id: 17538, uniqueType: 'battle', icon: 'inv_potion_32', data: {agi: 25, critr: 28}, battleElixir: true},
+    28553: {id: 28553, uniqueType: 'battle', icon: 'inv_potion_127', data: {agi: 35, rcritr: 20, mcritr: 20}, battleElixir: true},
+    17538: {id: 17538, uniqueType: 'battle', icon: 'inv_potion_32', data: {agi: 25, rcritr: 28, mcritr: 28}, battleElixir: true},
     11467: {id: 11467, uniqueType: 'battle', icon: 'inv_potion_94', data: {agi: 25}, battleElixir: true},
-    28520: {id: 28520, uniqueType: 'battle', icon: 'inv_potion_117', data: {ap: 120}, battleElixir: true},
+    28520: {id: 28520, uniqueType: 'battle', icon: 'inv_potion_117', data: {rap: 120, map: 120}, battleElixir: true},
     28570: {id: 28570, uniqueType: 'guardian', icon: 'inv_potion_151', data: {mps: 16}, guardianElixir: true},
-    28421: {id: 28421, uniqueType: 'stone', icon: 'inv_stone_weightstone_07', data: {bdmg: 12, critr: 14}, stone:true},
-    23529: {id: 23529, uniqueType: 'stone', icon: 'inv_stone_weightstone_07', data: {bdmg: 12}, stone:true},
-    29192: {id: 29192, data: {ap: 34, hitr: 16}, enchId:3003, slots:[1]}, // Cenarion Head
-    28888: {id: 28888, data: {ap: 30, critr: 10}, enchId:2986, slots:[3]}, // Aldor shoulder
-    28910: {id: 28910, data: {ap: 15, critr: 20}, enchId:2997, slots:[3]}, // Scryer shoulder
+    28421: {id: 28421, uniqueType: 'stone', icon: 'inv_stone_weightstone_07', data: {bdmg: 12, rcritr: 14, mcritr: 14}, stone:true},
+    23529: {id: 23529, uniqueType: 'stone', icon: 'inv_stone_weightstone_07', data: {bdmg: 12, mcritr: 14}, stone:true},
+    29192: {id: 29192, data: {rap: 34, rhitr: 16, map: 34, mhitr: 16}, enchId:3003, slots:[1]}, // Cenarion Head
+    28888: {id: 28888, data: {rap: 30, rcritr: 10, map: 30, mcritr: 10}, enchId:2986, slots:[3]}, // Aldor shoulder
+    28910: {id: 28910, data: {rap: 15, rcritr: 20, map: 15, mcritr: 20}, enchId:2997, slots:[3]}, // Scryer shoulder
     27960: {id: 27960, data: {sta: 6, str:6, int:6, agi:6, spi:6}, enchId:2661, slots: [5]}, // 6 stats to chest
-    34002: {id: 34002, data: {ap: 24}, enchId:1593, slots: [9]}, // ap to bracer
+    34002: {id: 34002, data: {map: 24, rap: 24}, enchId:1593, slots: [9]}, // ap to bracer
     23800: {id: 23800, data: {agi: 15}, enchId:2564, slots: [16, 17]}, // agi to main hand
     42620: {id: 42620, data: {agi: 20}, enchId:3222, slots: [16, 17]}, // agi to main hand
     25080: {id: 25080, data: {agi: 15}, enchId:2564, slots: [10]}, // agi to glove
-    35490: {id: 35490, data: {ap: 50, critr:12}, enchId:3012, slots: [7]}, // Cobra legs
-    35488: {id: 35488, data: {ap: 40, critr:10}, enchId:3010, slots: [7]}, // Cheap Cobra legs
+    35490: {id: 35490, data: {rap: 50, rcritr:12, map: 50, mcritr:12}, enchId:3012, slots: [7]}, // Cobra legs
+    35488: {id: 35488, data: {rap: 40, map: 40, rcritr: 10, mcritr:10}, enchId:3010, slots: [7]}, // Cheap Cobra legs
     27951: {id: 27951, data: {agi: 12}, enchId: 2657, slots: [8]}, // Boots
     34007: {id: 34007, data: {agi: 6}, enchId: 2939, slots: [8]}, // Boots
-    27954: {id: 27954, data: {hitr: 10}, enchId:2658, slots: [8]}, // Boots
+    27954: {id: 27954, data: {rhitr: 10, mhitr: 10}, enchId:2658, slots: [8]}, // Boots
     34004: {id: 34004, data: {agi: 12}, enchId:368, slots: [15]}, // Cloak
     30260: {id: 30260, data: {rcritr: 28}, enchId:2724, slots: [18]}, // Bow
-    30252: {id: 30252, data: {bdmg: 12}, enchId:2723, slots: [18]}, // Bow
+    30252: {id: 30252, data: {rmindmg: 12, rmaxdmg: 12}, enchId:2723, slots: [18]}, // Bow
     22779: {id: 22779, data: {rhitr: 30}, enchId:2523, slots: [18]}, // Bow
     27977: {id: 27977, data: {agi: 35}, enchId:2670, slots: [16]}, // 2h
     6150: {id: 6150, type: 'buff', cd: 0, duration: 12000, school: 'physical', mods: {modrhst: 0.00}},

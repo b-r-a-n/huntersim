@@ -5,106 +5,36 @@ function getLocalSettings(key) {
     return state;
 }
 
-function saveSettings(key, state) {
-    localStorage.setItem(key, JSON.stringify(state));
-    return state;
-}
-
 const defaultSettings = {
-    fightDuration: 142,
-    encodedTalents: '512002005250122431051-0505201205',
-    randomSeed: 1,
-    targetArmor: 7700,
-    targetType: 'other',
-    quiverHaste: 15,
-    race: 'orc',
-    petFamily: 'ravager',
-    petAbilities: [35298, 25076],
-    mhStone: 28421, // Adamantite Weightstone
-    ohStone: 28421,
-    numLusts: 1,
-    numFerocious: 3,
-    drums: 35476, // Drums of Battle
-    totems: [
-        25528, 25359, 25570, 30811
-    ],
-    debuffs: [
-        27165,
-        27159,
-        26866,
-        26993,
-        14325,
-        27226
-    ], 
-    potions: [
-        28507, // haste
-        28499, // super mana
-        //38929, // fel-mana
-    ],
-    runes: [
-        27869,
-    ],
-    passiveBuffs: [
-        33288, // Warp Burger
-        28553, // Major Agi Elixir
-        28570, // Major Mageblood
-        25898, // kings
-        //27044, // hawk
-        27141, // might
-        27143, // wisdom
-        24932, // lotp
-        26991, // gotw
-        27127, // int
-        25392, // fort
-        33077, // agi scroll
-    ],
-    petBuffs: [
-        33874, // Kibler's
-        33082, // Str scroll
-    ],
-    items: [
-        33803, // Ammo 24 
-        32474, // Head 1
-        29381, // Neck 2
-        30143, // Shoulder 3
-        null,  // Shirt
-        30139, // Chest 5
-        30040, // Waist 6
-        29995, // Leg 7
-        29951, // Feet 8
-        29966, // Wrist 9
-        30140, // Hands 10 
-        29298, // Finger 11 
-        28791, // Finger 11 
-        29383, // Trinket 12
-        28830, // Trinket 12
-        29382, // Back 16 
-        27846, // Main-Hand 21 
-        28315, // Off-Hand 22 
-        28772, // Ranged 15
-    ],
-    gems: {
-        1: [32409, 24055],
-        3: [24028, 24028],
-        5: [24055, 31868, 31868],
-        6: [24055, 24055],
-        8: [24028, 24028],
-        9: [24067],
-        16: [24055, 24028],
+    "passiveBuffs":[33262,43771,33077,33082,28497,24932,39926,26990,17055,39235,25898,27140,20048],
+    "activeBuffs":[35476,34456,27044,25528,25359,30807,2825],
+    "activeDebuffs":[26866,14169,26993,33602,27226,27159,14325,19425,27167,34501,29859],
+    "abilities":[35298,75,34120,27021,27019,34026,19574,20572,3045],
+    "activeItems":[22838,20520],
+    "petFamily":"ravager",
+    "fightDuration":200,
+    "randomSeed":90,
+    "targetArmor":7700,
+    "targetType":"other",
+    "encodedTalents":"512002005250122431051-0505201205",
+    "quiverHaste":15,
+    "race":"orc",
+    "mhStone":28421,
+    "ohStone":28421,
+    "items":[33803,30141,30017,30143,null,30139,30040,29995,29951,29966,30140,29298,28791,29383,28830,28672,27846,28315,28772],
+    "gems":{
+        "1":[24028,32409],
+        "3":[24028,24028],
+        "5":[24055,31868,31868],
+        "6":[24055,24055],
+        "8":[24028,24028],
+        "9":[24028],
+        "16":[24055,24028]
     },
-    enchants: {
-        1: 29192, //{ap: 34, hitr: 16}, // Cenarion Head
-        3: 28888, //{ap: 30, critr: 10}, // Aldor shoulder
-        5: 27960, //{sta: 6, str:6, int:6, agi:6, spi:6}, // 6 stats to chest
-        9: 34002, //{ap: 24}, // ap to bracer
-        16: 23800, //{agi: 15}, // agi to main hand
-        17: 23800, //{agi: 15}, // agi to off hand
-        10: 25080, //{agi: 15}, // agi to glove
-        7: 35490, //{ap: 50, critr:12}, // Cobra legs
-        8: 27951, //{agi: 12}, // Boots
-        15: 34004, //{agi: 12}, // Cloak
-        18: 30260, //{rcritr: 28} // Bow
+    "enchants":{
+        "1":29192,"3":28888,"5":27960,"7":35490,"8":34007,
+        "9":34002,"10":25080,"15":34004,"16":23800,"17":23800,"18":30260
     }
-};
+ };
 
 export {getLocalSettings, defaultSettings}

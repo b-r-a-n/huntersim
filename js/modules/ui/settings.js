@@ -6,43 +6,6 @@ import * as Spells from '../data/spells.js';
 import * as Talents from '../data/talents.js';
 import * as Inputs from '../siminputs.js';
 
-function foodBuffs(settings) {
-    var foods = [];
-    for (let food of Object.values(Spells.all).filter(s=>s.food)) {
-        foods.push({
-            id: food.id,
-            url: Util.whUrl('spell', food.id),
-            checked: settings.passiveBuffs.includes(food.id)
-        });
-    }
-    return Util.radiobox(foods, 'foods', true);
-}
-
-function elixirs(settings, type) {
-    var elixirs = [];
-    for (let elixir of Object.values(Spells.all).filter(s=>s[type])) {
-        elixirs.push({
-            id: elixir.id,
-            url: Util.whUrl('spell', elixir.id),
-            checked: settings.passiveBuffs.includes(elixir.id)
-        });
-    }
-    return Util.radiobox(elixirs, type, true);
-}
-
-function drums(settings) {
-    var drums = [];
-    for (let drum of Object.values(Spells.all).filter(s=>s.drums)) {
-        drums.push({
-            id: drum.id,
-            url: Util.whUrl('spell', drum.id),
-            cls: 'drum',
-            checked: settings.drums == drum.id
-        });
-    }
-    return Util.radiobox(drums, 'drums', true);
-}
-
 function addStones(selector, settings, hand) {
     var stones = [];
     for (let stone of Object.values(Spells.all).filter(s=>s.stone)) {
@@ -58,39 +21,19 @@ function addStones(selector, settings, hand) {
     selector.append(...elements);
 }
 
-function addSpell(selector, id, cls, checked=false) {
-    let spell = Spells.spell(id);
-    let option = {id: spell.id, url: Util.whUrl('spell', spell.id), checked: checked, cls: cls};
-    let elements = Util.checkbox([option]);
-    selector.append(...elements);
-}
-
-function addSpells(selector, checkedIds, name, filter) {
+function addElementsById(selector, type, spellIds, checkedIds, name) {
     var spells = [];
-    for (let spell of Object.values(Spells.all).filter(filter)) {
+    for (let id of spellIds) {
         spells.push({
-            id: spell.id,
-            url: Util.whUrl('spell', spell.id),
-            checked: checkedIds.includes(spell.id)
+            id: id,
+            url: Util.whUrl(type, id),
+            checked: checkedIds.includes(id)
         });
     }
     let legendElement = Util.t2e(`<legend>${name}</legend>`)
     let spellElements = Util.checkbox(spells);
     selector.replaceChildren(...legendElement);
     selector.append(...spellElements);
-}
-
-function spells(checkedIds, cls, filter) {
-    var spells = [];
-    for (let spell of Object.values(Spells.all).filter(filter)) {
-        spells.push({
-            id: spell.id,
-            url: Util.whUrl('spell', spell.id),
-            cls: cls,
-            checked: checkedIds.includes(spell.id)
-        });
-    }
-    return Util.checkbox(spells);
 }
 
 function addTalents(selector, encodedTalents) {
@@ -115,17 +58,12 @@ function colorForSocket(socketId) {
         case 4: return 'blue';
     }
 }
-function updateStats(selector, player, target) {
-    let ap = Math.floor(player.rangedAp(target));
-    let agi = Math.floor(player.agi(target));
-    let crit = Math.floor(player.rangedCrit(target)*1000)/10;
-    let hit = Math.floor(player.rangedHit(target)*1000)/10;
-    let haste = Math.floor((player.rangedHaste()-1)*1000)/10;
-    let html = `<div id='rap'>Ranged Ap<hr>${ap}</div>`;
-    html += `<div id='agi'>Agility<hr>${agi}</div>`;
-    html += `<div id='crt'>Ranged Crit<hr>${crit}%</div>`;
-    html += `<div id='hit'>Ranged Hit<hr>${hit}%</div>`;
-    html += `<div id='hit'>Ranged Haste<hr>${haste}%</div>`;
+function updateStats(selector, stats) {
+    let html = `<div id='rap'>Ranged Ap<hr>${stats.ranged_ap}</div>`;
+    html += `<div id='agi'>Agility<hr>${stats.agi}</div>`;
+    html += `<div id='crt'>Ranged Crit<hr>${Math.floor(stats.crit*10000)/100}%</div>`;
+    html += `<div id='hit'>Ranged Hit<hr>${Math.floor(stats.hit*10000)/100}%</div>`;
+    html += `<div id='hit'>Ranged Haste<hr>${Math.floor(stats.haste*10000)/100}%</div>`;
     selector.replaceChildren(...Util.t2e(html));
 }
 
@@ -185,7 +123,7 @@ function updateItems(selector, itemIds, gemIds, enchantIds, dispatch=false) {
     if (dispatch) selector.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
-function update(document, settings) {
+function update(document, settings, data={}) {
     // Individual Settings
     document.getElementById('fightDuration').value = settings.fightDuration;
     document.getElementById('randomSeed').value = settings.randomSeed;
@@ -204,73 +142,42 @@ function update(document, settings) {
         racesSel.append(...Util.t2e(html));
     }
     
-    // buffs
-    addSpells(document.querySelector('#staticBuffs'), settings.passiveBuffs, 'Static Buffs', s=>s.buff);
+    // Passive Buffs
+    addElementsById(document.querySelector('#passiveBuffs'), 'spell', data.passiveBuffs || [], settings.passiveBuffs || [], 'Passive Buffs');
 
-    // Consumes
-    let foods = foodBuffs(settings);
-    let battleElixirs = elixirs(settings, 'battleElixir');
-    let guardianElixirs = elixirs(settings, 'guardianElixir');
-    let scrolls = spells(settings.passiveBuffs || [], 'scroll', s=>s.scroll);
-    
-    document.querySelector('#consumes').replaceChildren(...Util.t2e('<legend>Consumes</legend>'));
-    document.querySelector('#consumes').append(...foods);
-    document.querySelector('#consumes').append(...Util.t2e('<hr>'));
-    document.querySelector('#consumes').append(...battleElixirs);
-    document.querySelector('#consumes').append(...Util.t2e('<hr>'));
-    document.querySelector('#consumes').append(...guardianElixirs);
-    document.querySelector('#consumes').append(...Util.t2e('<hr>'));
-    document.querySelector('#consumes').append(...scrolls);
+    // Active Buffs
+    addElementsById(document.querySelector('#activatedBuffs'), 'spell', data.activeBuffs || [], settings.activeBuffs || [], 'Active Buffs');
 
-    // Pet Consumes
-    addSpells(document.querySelector('#petBuffs'), settings.petBuffs, 'Pet Buffs', s=>s.petbuff);
+    // Activated Items
+    let items = [
+        22838, // Haste Pot
+        22832, // Super Mana Pot
+        31677, // Fel-mana Pot
+        20520, // Dark Rune
+        29528, // Drums of War
+        29529, // Drums of Battle
+        185848, // Greater Drums of Battle
+        185852, // Greater Drums of War
+    ];
+    addElementsById(document.querySelector('#activatedItems'), 'item', items, settings.activeItems || [], 'Consumables');
 
-    // Pet Abilities
-    addSpells(document.querySelector('#petAbilities'), settings.petAbilities, 'Pet Abilities', s=>s.petFamily && s.petFamily.includes(settings.petFamily));
+    // Active Buffs
+    addElementsById(document.querySelector('#activatedDebuffs'), 'spell', data.activeDebuffs || [], settings.activeDebuffs || [], 'Debuffs');
 
-    var n = 0
-    var sel = document.querySelector('#activeBuffs');
-    sel.replaceChildren(...Util.t2e('<legend>Active Buffs</legend>'))
-    while (n < 4) {
-        addSpell(sel, 2825, 'lust', n<settings.numLusts);
-        n++;
-    }
-    document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
-    n = 0
-    while (n < 4) {
-        addSpell(sel, 34460, 'ferocious', n<settings.numFerocious)
-        n++;
-    }
-    document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
-    // Shaman
-    let totems = spells(settings.totems, 'totem', s=>s.shaman||s.totem);
-    document.querySelector('#activeBuffs').append(...totems);
-    document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
-
-    // Potions
-    let potions = spells(settings.potions || [], 'potion', s=>s.potion);
-    let runes = spells(settings.runes || [], 'rune', s=>s.rune);
-    document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
-    document.querySelector('#activeBuffs').append(...potions);
-    document.querySelector('#activeBuffs').append(...Util.t2e('<hr>'));
-    document.querySelector('#activeBuffs').append(...runes);
-
-    // Drums
-    document.querySelector('#activeBuffs').append(...drums(settings));
+    // Abilities
+    addElementsById(document.querySelector('#abilities'), 'spell', data.abilities || [], settings.abilities || [], 'Abilities');
 
     // Stones
     addStones(document.querySelector('#mhStones'), settings, 'mh');
     addStones(document.querySelector('#ohStones'), settings, 'oh');
 
-    // Debuff
-    addSpells(document.querySelector('#debuffs'), settings.debuffs, 'Debuffs', s=>s.type === 'debuff');
-
     // Talents
     addTalents(document.querySelector('#talents'), settings.encodedTalents);
 
     // Stats
-    let inputs = Inputs.create(settings);
-    updateStats(document.querySelector('#stats'), inputs.player, inputs.target);
+    let input = Inputs.create_wasm(settings);
+    //let stats = get_stats(JSON.stringify(input));
+    //updateStats(document.querySelector('#stats'), stats);
 
     // Items
     updateItems(document.querySelector('#items'), settings.items, settings.gems, settings.enchants, true);
@@ -295,6 +202,11 @@ function getItems(document) {
 
 function get(document) {
     let settings = {};
+    settings.passiveBuffs = Array.from(document.querySelectorAll("#passiveBuffs input:checked"), n=>Number(n.dataset.id));
+    settings.activeBuffs = Array.from(document.querySelectorAll("#activatedBuffs input:checked"), n=>Number(n.dataset.id));
+    settings.activeDebuffs = Array.from(document.querySelectorAll("#activatedDebuffs input:checked"), n=>Number(n.dataset.id));
+    settings.abilities = Array.from(document.querySelectorAll("#abilities input:checked"), n=>Number(n.dataset.id));
+    settings.activeItems = Array.from(document.querySelectorAll("#activatedItems input:checked"), n=>Number(n.dataset.id));
     settings.petFamily = document.getElementById('petFamily').value;
     settings.fightDuration = Number(document.getElementById('fightDuration').value);
     settings.randomSeed = Number(document.getElementById('randomSeed').value);
@@ -303,23 +215,12 @@ function get(document) {
     settings.encodedTalents = document.getElementById('encodedTalents').value;
     settings.quiverHaste = Number(document.getElementById('quiverHaste').value);
     settings.race = document.querySelector('#races input:checked').dataset.id;
-    let passive = Array.from(document.querySelectorAll('#staticBuffs input:checked'), n=>Number(n.dataset.id));
-    let consumes = Array.from(document.querySelectorAll('#consumes input:checked'), n=>Number(n.dataset.id)).filter(n=>!isNaN(n));
-    settings.passiveBuffs = passive.concat(consumes);
-    settings.petBuffs = Array.from(document.querySelectorAll('#petBuffs input:checked'), n=>Number(n.dataset.id));
-    settings.petAbilities = Array.from(document.querySelectorAll('#petAbilities input:checked'), n=>Number(n.dataset.id));
     let mhNode = document.querySelector('#mhStones input:checked');
     if (mhNode) settings.mhStone = Number(mhNode.dataset.id);
     let ohNode = document.querySelector('#ohStones input:checked');
     if (ohNode) settings.ohStone = Number(ohNode.dataset.id);
-    let drumsNode = document.querySelector('#activeBuffs input.drum:checked');
-    if (drumsNode) settings.drums = Number(drumsNode.dataset.id);
     settings.numLusts = document.querySelectorAll('#activeBuffs input.lust:checked').length;
     settings.numFerocious = document.querySelectorAll('#activeBuffs input.ferocious:checked').length;
-    settings.debuffs = Array.from(document.querySelectorAll('#debuffs input:checked'), n=>Number(n.dataset.id));
-    settings.totems = Array.from(document.querySelectorAll('#activeBuffs input.totem:checked'), n=>Number(n.dataset.id));
-    settings.potions = Array.from(document.querySelectorAll('#activeBuffs input.potion:checked'), n=>Number(n.dataset.id));
-    settings.runes = Array.from(document.querySelectorAll('#activeBuffs input.rune:checked'), n=>Number(n.dataset.id));
     let itemInfo = getItems(document);
     settings.items = itemInfo.items;
     settings.gems = itemInfo.gems;
