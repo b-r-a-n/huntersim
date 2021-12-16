@@ -3,7 +3,7 @@ import * as UISettings from './modules/ui/settings.js';
 import * as UIResults from './modules/ui/results.js';
 import * as Inputs from './modules/siminputs.js';
 
-const VERSION = "0.9.1";
+const VERSION = "0.9.2";
 
 function saveRecent(settings, result) {
     let nextKey = localStorage.getItem('nextKey') || 'prev0';

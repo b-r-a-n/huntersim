@@ -212,6 +212,7 @@ function get(document) {
     settings.activeItems = Array.from(document.querySelectorAll("#activatedItems input:checked"), n=>Number(n.dataset.id));
     settings.petFamily = document.getElementById('petFamily').value;
     settings.fightDuration = Number(document.getElementById('fightDuration').value);
+    settings.iterations = Number(document.getElementById('iterations').value);
     settings.randomSeed = Number(document.getElementById('randomSeed').value);
     settings.targetArmor = Number(document.getElementById('targetArmor').value);
     settings.targetType = document.getElementById('targetType').value;
