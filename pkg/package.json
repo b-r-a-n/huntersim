@@ -1,0 +1,11 @@
+{
+  "name": "rusthuntersim",
+  "version": "0.1.0",
+  "files": [
+    "rusthuntersim_bg.wasm",
+    "rusthuntersim.js",
+    "rusthuntersim.d.ts"
+  ],
+  "browser": "rusthuntersim.js",
+  "types": "rusthuntersim.d.ts"
+}
