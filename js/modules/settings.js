@@ -13,6 +13,7 @@ const defaultSettings = {
     "activeItems":[22838,20520],
     "petFamily":"ravager",
     "fightDuration":200,
+    "iterations":100,
     "randomSeed":90,
     "targetArmor":7700,
     "targetType":"other",

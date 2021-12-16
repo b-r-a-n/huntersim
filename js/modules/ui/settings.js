@@ -129,12 +129,12 @@ function updateItems(selector, itemIds, gemIds, enchantIds, dispatch=false) {
 function update(document, settings, data={}) {
     // Individual Settings
     document.getElementById('fightDuration').value = settings.fightDuration;
+    document.getElementById('iterations').value = settings.iterations;
     document.getElementById('randomSeed').value = settings.randomSeed;
     document.getElementById('targetArmor').value = settings.targetArmor;
     document.getElementById('targetType').value = settings.targetType;
     document.getElementById('petFamily').value = settings.petFamily;
     document.getElementById('encodedTalents').value = settings.encodedTalents;
-    document.getElementById('quiverHaste').value = settings.quiverHaste;
     
     // race
     let racesSel = document.querySelector('#races');
@@ -216,7 +216,7 @@ function get(document) {
     settings.targetArmor = Number(document.getElementById('targetArmor').value);
     settings.targetType = document.getElementById('targetType').value;
     settings.encodedTalents = document.getElementById('encodedTalents').value;
-    settings.quiverHaste = Number(document.getElementById('quiverHaste').value);
+    settings.quiverHaste = 15;
     settings.race = document.querySelector('#races input:checked').dataset.id;
     let mhNode = document.querySelector('#mhStones input:checked');
     if (mhNode) settings.mhStone = Number(mhNode.dataset.id);
