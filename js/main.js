@@ -17,7 +17,6 @@ function saveRecent(settings, result) {
 function runWasmSim() {
     let settings = UISettings.get(document);
     let inputs = Inputs.create_wasm(settings);
-    console.log(JSON.stringify(inputs));
     let result = run_sim(JSON.stringify(inputs));
     saveRecent(settings, {hunter: result.dps, pet: result.pet_dps});
     UIResults.update(document, result, 0, 1000);

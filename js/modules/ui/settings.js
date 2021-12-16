@@ -32,6 +32,9 @@ function addElementsById(selector, type, spellIds, checkedIds, name) {
     }
     let legendElement = Util.t2e(`<legend>${name}</legend>`)
     let spellElements = Util.checkbox(spells);
+    for (let el of spellElements) {
+        el.querySelector("a").onclick = (e) => { e.preventDefault(); e.target.parentNode.parentNode.querySelector("input").click(); };
+    }
     selector.replaceChildren(...legendElement);
     selector.append(...spellElements);
 }
@@ -176,8 +179,8 @@ function update(document, settings, data={}) {
 
     // Stats
     let input = Inputs.create_wasm(settings);
-    //let stats = get_stats(JSON.stringify(input));
-    //updateStats(document.querySelector('#stats'), stats);
+    let stats = get_stats(JSON.stringify(input));
+    updateStats(document.querySelector('#stats'), stats);
 
     // Items
     updateItems(document.querySelector('#items'), settings.items, settings.gems, settings.enchants, true);
