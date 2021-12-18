@@ -66,11 +66,12 @@ function updateHistory(selector) {
         let minutesAgo = Math.floor((Date.now() - result[0])/60000);
         html = `<div data-key='${result[3]}' class='btn'><span>${minutesAgo}m ago</span><span>DPS: ${Math.floor(result[1]+result[2])}</span></div>`;
         let el = Util.t2e(html);
-        el[0].onclick = (e) => { 
+        el[0].onclick = async (e) => { 
+            let data = await load_data();
             let storageKey = e.target.dataset.key;
             let settings = JSON.parse(localStorage.getItem(storageKey));
             if (settings.savedTs) delete settings.savedTs;
-            UISettings.update(document, settings);
+            UISettings.update(document, settings, data);
         }
         selector.append(...el);
     }

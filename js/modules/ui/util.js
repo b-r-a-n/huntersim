@@ -33,7 +33,11 @@ function checkbox(options) {
     var html = '';
     for (let option of options) {
         html += `<label class='btn'><input class='${option.cls}' type='checkbox' data-id=${option.id}${option.checked ? ' checked' : ''}>`;
-        html += `<a href=${option.url}></a></label>`;
+        html += `<a href=${option.url}></a>`
+        if (option.parameter) {
+            html += `<div style="flex-grow: 1; text-align: right;"><input id='param-${option.id}' type="number" style="width: 44px"></div>`;
+        }
+        html += `</label>`;
     }
     return t2e(html);
 }

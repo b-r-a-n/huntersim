@@ -2,12 +2,88 @@ import * as Items from './data/items.js';
 import * as Talents from './data/talents.js';
 import * as Spells from './data/spells.js';
 
+function gemMatchesSocket(socketId, gem) {
+    switch (gem.subclass) {
+        case 0: return socketId == 2;
+        case 1: return socketId == 4;
+        case 2: return socketId == 3;
+        case 3: return socketId == 2 || socketId == 4;
+        case 4: return socketId == 3 || socketId == 4;
+        case 5: return socketId == 2 || socketId == 3;
+        case 6: return socketId == 1;
+        case 8: return true;
+    }
+    return false;
+}
+
+function getSocketBonusId(items, gems, slot) {
+    let item = Items.item(items[slot]);
+    if (!item.socketbonus) return 0;
+    if (item.socket1) {
+        if (!gems[slot]) return 0;
+        if (!gems[slot][0]) return 0;
+        let gem = Items.item(gems[slot][0]);
+        if (!gemMatchesSocket(item.socket1, gem)) return 0;
+    }
+    if (item.socket2) {
+        if (!gems[slot]) return 0;
+        if (!gems[slot][1]) return 0;
+        let gem = Items.item(gems[slot][1]);
+        if (!gemMatchesSocket(item.socket2, gem)) return 0;
+    }
+    if (item.socket3) {
+        if (!gems[slot]) return 0;
+        if (!gems[slot][2]) return 0;
+        let gem = Items.item(gems[slot][2]);
+        if (!gemMatchesSocket(item.socket3, gem)) return 0;
+    }
+    return item.socketbonus;
+}
+
+const _socketBonuses = {
+    75: {"agi": 2},
+    90: {"agi": 4},
+    104: {"sta": 6},
+    2859: {"res": 3},
+    2860: {"mhitr": 3, "rhitr": 3},
+    2862: {"res": 3},
+    2863: {"int": 3},
+    2865: {"mps": 2},
+    2867: {"res": 2},
+    2868: {"sta": 6},
+    2869: {"int": 4},
+    2871: {"dgdr": 4},
+    2873: {"mhitr": 4, "rhitr": 4},
+    2874: {"mcritr": 4, "rcritr": 4},
+    2876: {"dgdr": 2},
+    2877: {"agi": 4},
+    2878: {"res": 4},
+    2879: {"str": 3},
+    2882: {"sta": 6},
+    2886: {"mhitr": 2, "rhitr": 2},
+    2887: {"mcritr": 3, "rcritr": 3},
+    2893: {"agi": 3},
+    2895: {"sta": 4},
+    2902: {"mcritr": 2, "rcritr": 2},
+    2925: {"sta": 3},
+    2927: {"str": 4},
+    2936: {"map": 8, "rap": 8},
+    2941: {"mhitr": 2, "rhitr": 2},
+    2952: {"mcritr": 4, "rcritr": 4},
+    2973: {"map": 6, "rap": 6},
+    3015: {"str": 2},
+    3092: {"mcritr": 3, "rcritr": 3},
+    3114: {"map": 4, "rap": 4},
+    3149: {"agi": 2},
+    3164: {"sta": 3},
+}
+
 function statsFromItems(state) {
     let result = {};
     for (let slot in state.items) {
         let itemId = state.items[slot];
         let item = Items.item(itemId);
-        if (!item) { console.log('Missing item with id ' + itemId); continue; }
+        if (!item) { continue; }
         for (let k in item.stats) {
             if (k == 'dps' && item.slot != 24) continue;
             if (k == 'mmaxdmg') {
@@ -45,6 +121,14 @@ function statsFromItems(state) {
                 result['mcritd'] += 0.03;
                 result['rcritd'] = result['rcritd'] || 0;
                 result['rcritd'] += 0.03;
+            }
+        }
+        let socketBonusId = getSocketBonusId(state.items, state.gems, slot);
+        if (Number(socketBonusId) > 0) {
+            let socketBonus = _socketBonuses[socketBonusId];
+            for (let k in socketBonus) {
+                result[k] = result[k] || 0;
+                result[k] += socketBonus[k];
             }
         }
     }
@@ -144,4 +228,4 @@ function create_wasm(settings) {
     };
 }
 
-export {create_wasm}
+export {create_wasm, _socketBonuses as socketBonuses}

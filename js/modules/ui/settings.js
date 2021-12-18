@@ -21,13 +21,14 @@ function addStones(selector, settings, hand) {
     selector.append(...elements);
 }
 
-function addElementsById(selector, type, spellIds, checkedIds, name) {
+function addElementsById(selector, type, spellIds, checkedIds, params, name) {
     var spells = [];
     for (let id of spellIds) {
         spells.push({
             id: id,
             url: Util.whUrl(type, id),
-            checked: checkedIds.includes(id)
+            checked: checkedIds.includes(id),
+            parameter: params[id]
         });
     }
     let legendElement = Util.t2e(`<legend>${name}</legend>`)
@@ -146,10 +147,10 @@ function update(document, settings, data={}) {
     }
     
     // Passive Buffs
-    addElementsById(document.querySelector('#passiveBuffs'), 'spell', data.passiveBuffs || [], settings.passiveBuffs || [], 'Passive Buffs');
+    addElementsById(document.querySelector('#passiveBuffs'), 'spell', data.passiveBuffs || [], settings.passiveBuffs || [], {}, 'Passive Buffs');
 
     // Active Buffs
-    addElementsById(document.querySelector('#activatedBuffs'), 'spell', data.activeBuffs || [], settings.activeBuffs || [], 'Active Buffs');
+    addElementsById(document.querySelector('#activatedBuffs'), 'spell', data.activeBuffs || [], settings.activeBuffs || [], {}, 'Active Buffs');
 
     // Activated Items
     let items = [
@@ -162,13 +163,19 @@ function update(document, settings, data={}) {
         185848, // Greater Drums of Battle
         185852, // Greater Drums of War
     ];
-    addElementsById(document.querySelector('#activatedItems'), 'item', items, settings.activeItems || [], 'Consumables');
+    addElementsById(document.querySelector('#activatedItems'), 'item', items, settings.activeItems || [], {}, 'Consumables');
 
-    // Active Buffs
-    addElementsById(document.querySelector('#activatedDebuffs'), 'spell', data.activeDebuffs || [], settings.activeDebuffs || [], 'Debuffs');
+    // Active Debuffs
+    addElementsById(document.querySelector('#activatedDebuffs'), 
+        'spell', 
+        data.activeDebuffs || [], 
+        settings.activeDebuffs || [], 
+        {25225: 90, 26866: 90, 26993: 95, 33602: 95, 27226: 95, 27159: 98, 14325: 98, 27167: 85, 34501: 90, 29859: 90}, 
+        'Debuffs'
+    );
 
     // Abilities
-    addElementsById(document.querySelector('#abilities'), 'spell', data.abilities || [], settings.abilities || [], 'Abilities');
+    addElementsById(document.querySelector('#abilities'), 'spell', data.abilities || [], settings.abilities || [], {}, 'Abilities');
 
     // Stones
     addStones(document.querySelector('#mhStones'), settings, 'mh');

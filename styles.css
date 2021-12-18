@@ -170,7 +170,7 @@ a, a:visited {
     padding: 6px;
 }
 .fieldsets fieldset label {
-    display: block;
+    display: flex;
     padding: 4px;
     margin: 2px;
     background: #ffffff09;

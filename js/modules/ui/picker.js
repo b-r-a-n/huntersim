@@ -10,7 +10,7 @@ function canEquip(invSlot, item) {
         case 13:
         case 14: return item.slot == 12;
         case 15: return item.slot == 16;
-        case 16: return [13, 21, 17].includes(item.slot);
+        case 16: return [13, 21].includes(item.slot);
         case 17: return [13, 22].includes(item.slot);
         case 18: return item.slot == 15;
         default: return invSlot == item.slot;
@@ -87,6 +87,13 @@ function findNode(target, classes) {
 function itemFilter(inventorySlot, phase) { 
     return (i) => { return (i.phase <= phase) && canEquip(inventorySlot, i); }
 }
+function compareWeight(a, b) {
+    let aw = statWeight(a);
+    let bw = statWeight(b);
+    if (aw < bw) return 1;
+    if (aw > bw) return -1;
+    return 0;
+};
 const _gems = [
     24028,
     24031,
@@ -159,6 +166,20 @@ function gemFilter(phase, color) {
         return (i.phase <= phase && i.class == 3 && (isMeta ? (i.subclass == 6) : (i.subclass != 6))) && filterGems.includes(i.id); 
     };
 }
+function colorForGem(gem) {
+    switch(gem.subclass) {
+        case 0: return 'red';
+        case 1: return 'blue';
+        case 2: return 'yellow';
+        case 3: return 'purple';
+        case 4: return 'green';
+        case 5: return 'orange';
+        case 6: return 'meta';
+        case 8: return 'prismatic';
+    }
+    return null;
+}
+
 
 function enchantFilter(inventorySlot) {
     return (s) => { return s.enchId && s.slots.includes(Number(inventorySlot)); };
@@ -194,7 +215,7 @@ function show(target) {
     var socket = null;
     switch (node.dataset.type) {
         case 'item': {
-            filterFn = itemFilter(inventorySlot, 3);
+            filterFn = itemFilter(inventorySlot, 6);
             break;
         }
         case 'gem': {
@@ -235,4 +256,4 @@ function show(target) {
     document.getElementById('picker').style.display = 'block';
 }
 
-export {show, hide}
+export {show, hide, itemFilter, compareWeight, colorForGem}
