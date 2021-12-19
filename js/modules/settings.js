@@ -75,7 +75,9 @@ function paramsForAura(id, auraType) {
 const defaultSettings = {
     "passiveBuffs":[33262,43771,33077,33082,28497,24932,39926,26990,17055,39235,25898,27140,20048],
     "activeBuffs":[35476,34456,27044,25528,25359,30807,2825],
+    "activeBuffParams":{},
     "activeDebuffs":[26866,14169,26993,33602,27226,27159,14325,19425,27167,34501,29859],
+    "activeDebuffParams":{},
     "abilities":[35298,75,34120,27021,27019,34026,19574,20572,3045],
     "activeItems":[22838,20520],
     "petFamily":"ravager",

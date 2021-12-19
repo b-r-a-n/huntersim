@@ -5,7 +5,7 @@ import * as Inputs from './modules/siminputs.js';
 import * as Items from './modules/data/items.js';
 import * as Picker from './modules/ui/picker.js';
 
-const VERSION = "0.9.3";
+const VERSION = "0.9.4";
 
 function saveRecent(settings, result) {
     let nextKey = localStorage.getItem('nextKey') || 'prev0';
