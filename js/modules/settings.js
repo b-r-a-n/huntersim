@@ -5,6 +5,73 @@ function getLocalSettings(key) {
     return state;
 }
 
+function paramsForAura(id, auraType) {
+    switch(id) {
+        case 34456: return {uptime: 95, instances: 1};
+        case 34501: return {uptime: 95, agility: 1100};
+        case 33262:
+        case 43771:
+        case 28520:
+        case 33077:
+        case 33082:
+        case 28497:
+        case 24932:
+        case 39926:
+        case 26990:
+        case 17055:
+        case 31025:
+        case 39235:
+        case 25898:
+        case 27140:
+        case 20048:
+        case 27142:
+        case 20245:
+        // Drums
+        case 35475:
+        case 35476:
+        case 351360:
+        case 351355:
+        // BS imp
+        case 12861:
+        case 23563:
+        case 37536:
+        // Totem
+        case 16208:
+        // Lust
+        case 2825: 
+        // Expose
+        case 14168: 
+        case 14169: 
+        // Imp FF
+        case 33602: 
+        // Imp HM
+        case 19425: 
+        // Consumes
+        case 22838:
+        case 22832:
+        case 31677:
+        case 20520:
+        case 29528:
+        case 29529:
+        case 185848:
+        case 185852:
+        case 27050:
+        case 35298:
+        case 75:
+        case 34120:
+        case 27021:
+        case 27019:
+        case 34026:
+        case 34074:
+        case 19574:
+        case 20572:
+        case 26297:
+        case 3045:
+            return {};
+    }
+    return {uptime: 95};
+}
+
 const defaultSettings = {
     "passiveBuffs":[33262,43771,33077,33082,28497,24932,39926,26990,17055,39235,25898,27140,20048],
     "activeBuffs":[35476,34456,27044,25528,25359,30807,2825],
@@ -38,4 +105,4 @@ const defaultSettings = {
     }
  };
 
-export {getLocalSettings, defaultSettings}
+export {getLocalSettings, defaultSettings, paramsForAura}

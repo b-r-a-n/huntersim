@@ -33,11 +33,18 @@ function checkbox(options) {
     var html = '';
     for (let option of options) {
         html += `<label class='btn'><input class='${option.cls}' type='checkbox' data-id=${option.id}${option.checked ? ' checked' : ''}>`;
-        html += `<a href=${option.url}></a>`
-        if (option.parameter) {
-            html += `<div style="flex-grow: 1; text-align: right;"><input id='param-${option.id}' type="number" style="width: 44px"></div>`;
+        html += `<a href=${option.url}></a>`;
+        html += `<div style="flex-grow: 1; text-align: right;">`;
+        if (option.agility) {
+           html += `<input data-type='agility' data-id='${option.id}' type="number" value=${option.agility} style="margin-left: 8px; width: 44px">`;
         }
-        html += `</label>`;
+        if (option.instances) {
+           html += `<input data-type='instances' data-id='${option.id}' type="number" value=${option.instances} style="margin-left: 8px; width: 28px">`;
+        }
+        if (option.uptime) {
+           html += `<input data-type='uptime' data-id='${option.id}' type="number" value=${option.uptime} style="margin-left: 8px; width: 38px">`;
+        }
+        html += `</div></label>`;
     }
     return t2e(html);
 }

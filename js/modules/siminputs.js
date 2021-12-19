@@ -157,6 +157,7 @@ function create_wasm(settings) {
     let target_auras = [];
     let talentsPoints = Talents.decode(settings.encodedTalents);
     let abilities = settings.abilities;
+    let external_abilities = [];
     for (let talentId in talentsPoints) {
         let points = talentsPoints[talentId];
         if (points > 0) { 
@@ -184,21 +185,30 @@ function create_wasm(settings) {
             hunter_auras.push(buffId);
             continue;
         }
-        let lust = 2825; 
-        if (buffId == lust) {
-            abilities.push(buffId);
+        let ext_buff = [35475, 35476, 351360, 351355, 2825];
+        if (ext_buff.includes(buffId)) {
+            let buff = {id: buffId}
+            external_abilities.push(buff);
             continue;
         }
-        let drums = [35475, 35476, 351360, 351355];
-        if (drums.includes(buffId)) {
-            abilities.push(buffId);
-            continue;
+        if (settings.activeBuffParams[buffId]) {
+            let buff = settings.activeBuffParams[buffId];
+            buff.id = buffId;
+            external_abilities.push(buff);
+        } else {
+            pet_auras.push(buffId);
+            hunter_auras.push(buffId);
         }
-        pet_auras.push(buffId);
-        hunter_auras.push(buffId);
     }
     for (let buffId of settings.activeDebuffs) {
-        target_auras.push(buffId);
+        if (settings.activeDebuffParams[buffId]) {
+            let debuff = settings.activeDebuffParams[buffId];
+            debuff.id = buffId;
+            debuff.target = 3;
+            external_abilities.push(debuff);
+        } else {
+            target_auras.push(buffId);
+        }
     }
     let itemMods = statsFromItems(settings);
     let itemIds = [];
@@ -219,6 +229,7 @@ function create_wasm(settings) {
         hunter_auras: hunter_auras,
         pet_auras: pet_auras,
         target_auras: target_auras,
+        external_abilities: external_abilities,
         abilities: abilities,
         hunter_mods: itemMods,
         pet_mods: {},

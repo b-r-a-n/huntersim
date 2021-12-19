@@ -5,6 +5,7 @@ import * as Races from '../data/races.js';
 import * as Spells from '../data/spells.js';
 import * as Talents from '../data/talents.js';
 import * as Inputs from '../siminputs.js';
+import * as Settings from '../settings.js'
 
 function addStones(selector, settings, hand) {
     var stones = [];
@@ -24,12 +25,21 @@ function addStones(selector, settings, hand) {
 function addElementsById(selector, type, spellIds, checkedIds, params, name) {
     var spells = [];
     for (let id of spellIds) {
-        spells.push({
+        let spell = {
             id: id,
             url: Util.whUrl(type, id),
             checked: checkedIds.includes(id),
-            parameter: params[id]
-        });
+        };
+        if (params[id]) {
+            for (let k in params[id]) {
+                spell[k] = params[id][k];
+            }
+        } else {
+            for (let k in Settings.paramsForAura(id)) {
+                spell[k] = Settings.paramsForAura(id)[k];
+            }
+        }
+        spells.push(spell);
     }
     let legendElement = Util.t2e(`<legend>${name}</legend>`)
     let spellElements = Util.checkbox(spells);
@@ -150,7 +160,14 @@ function update(document, settings, data={}) {
     addElementsById(document.querySelector('#passiveBuffs'), 'spell', data.passiveBuffs || [], settings.passiveBuffs || [], {}, 'Passive Buffs');
 
     // Active Buffs
-    addElementsById(document.querySelector('#activatedBuffs'), 'spell', data.activeBuffs || [], settings.activeBuffs || [], {}, 'Active Buffs');
+    addElementsById(
+        document.querySelector('#activatedBuffs'), 
+        'spell', 
+        data.activeBuffs || [], 
+        settings.activeBuffs || [], 
+        settings.activeBuffParams || {}, 
+        'Active Buffs'
+    );
 
     // Activated Items
     let items = [
@@ -170,7 +187,7 @@ function update(document, settings, data={}) {
         'spell', 
         data.activeDebuffs || [], 
         settings.activeDebuffs || [], 
-        {25225: 90, 26866: 90, 26993: 95, 33602: 95, 27226: 95, 27159: 98, 14325: 98, 27167: 85, 34501: 90, 29859: 90}, 
+        settings.activeDebuffParams || {},
         'Debuffs'
     );
 
@@ -214,7 +231,19 @@ function get(document) {
     let settings = {};
     settings.passiveBuffs = Array.from(document.querySelectorAll("#passiveBuffs input:checked"), n=>Number(n.dataset.id));
     settings.activeBuffs = Array.from(document.querySelectorAll("#activatedBuffs input:checked"), n=>Number(n.dataset.id));
+    let activeBuffValues = Array.from(document.querySelectorAll("#activatedBuffs input[type='number']"), n=>[Number(n.dataset.id), [n.dataset.type, Number(n.value)]]);
+    settings.activeBuffParams = {};
+    for (let dp of activeBuffValues) {
+        settings.activeBuffParams[dp[0]] = settings.activeBuffParams[dp[0]] || {};
+        settings.activeBuffParams[dp[0]][dp[1][0]] = dp[1][1];
+    }
     settings.activeDebuffs = Array.from(document.querySelectorAll("#activatedDebuffs input:checked"), n=>Number(n.dataset.id));
+    let activeDebuffValues = Array.from(document.querySelectorAll("#activatedDebuffs input[type='number']"), n=>[Number(n.dataset.id), [n.dataset.type, Number(n.value)]]);
+    settings.activeDebuffParams = {};
+    for (let dp of activeDebuffValues) {
+        settings.activeDebuffParams[dp[0]] = settings.activeDebuffParams[dp[0]] || {};
+        settings.activeDebuffParams[dp[0]][dp[1][0]] = dp[1][1];
+    }
     settings.abilities = Array.from(document.querySelectorAll("#abilities input:checked"), n=>Number(n.dataset.id));
     settings.activeItems = Array.from(document.querySelectorAll("#activatedItems input:checked"), n=>Number(n.dataset.id));
     settings.petFamily = document.getElementById('petFamily').value;
@@ -230,8 +259,6 @@ function get(document) {
     if (mhNode) settings.mhStone = Number(mhNode.dataset.id);
     let ohNode = document.querySelector('#ohStones input:checked');
     if (ohNode) settings.ohStone = Number(ohNode.dataset.id);
-    settings.numLusts = document.querySelectorAll('#activeBuffs input.lust:checked').length;
-    settings.numFerocious = document.querySelectorAll('#activeBuffs input.ferocious:checked').length;
     let itemInfo = getItems(document);
     settings.items = itemInfo.items;
     settings.gems = itemInfo.gems;
