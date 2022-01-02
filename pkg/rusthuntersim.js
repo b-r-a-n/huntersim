@@ -127,344 +127,346 @@ let wasm_bindgen;
         return Summary.__wrap(ret);
     };
 
+function notDefined(what) { return () => { throw new Error(`${what} is not defined`); }; }
+/**
+*/
+class Stats {
+
+    static __wrap(ptr) {
+        const obj = Object.create(Stats.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_stats_free(ptr);
+    }
     /**
     */
-    class Stats {
-
-        static __wrap(ptr) {
-            const obj = Object.create(Stats.prototype);
-            obj.ptr = ptr;
-
-            return obj;
-        }
-
-        __destroy_into_raw() {
-            const ptr = this.ptr;
-            this.ptr = 0;
-
-            return ptr;
-        }
-
-        free() {
-            const ptr = this.__destroy_into_raw();
-            wasm.__wbg_stats_free(ptr);
-        }
-        /**
-        */
-        get ranged_ap() {
-            var ret = wasm.__wbg_get_stats_ranged_ap(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set ranged_ap(arg0) {
-            wasm.__wbg_set_stats_ranged_ap(this.ptr, arg0);
-        }
-        /**
-        */
-        get agi() {
-            var ret = wasm.__wbg_get_stats_agi(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set agi(arg0) {
-            wasm.__wbg_set_stats_agi(this.ptr, arg0);
-        }
-        /**
-        */
-        get crit() {
-            var ret = wasm.__wbg_get_stats_crit(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set crit(arg0) {
-            wasm.__wbg_set_stats_crit(this.ptr, arg0);
-        }
-        /**
-        */
-        get hit() {
-            var ret = wasm.__wbg_get_stats_hit(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set hit(arg0) {
-            wasm.__wbg_set_stats_hit(this.ptr, arg0);
-        }
-        /**
-        */
-        get haste() {
-            var ret = wasm.__wbg_get_stats_haste(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set haste(arg0) {
-            wasm.__wbg_set_stats_haste(this.ptr, arg0);
-        }
+    get ranged_ap() {
+        var ret = wasm.__wbg_get_stats_ranged_ap(this.ptr);
+        return ret;
     }
-    __exports.Stats = Stats;
+    /**
+    * @param {number} arg0
+    */
+    set ranged_ap(arg0) {
+        wasm.__wbg_set_stats_ranged_ap(this.ptr, arg0);
+    }
     /**
     */
-    class Summary {
-
-        static __wrap(ptr) {
-            const obj = Object.create(Summary.prototype);
-            obj.ptr = ptr;
-
-            return obj;
-        }
-
-        __destroy_into_raw() {
-            const ptr = this.ptr;
-            this.ptr = 0;
-
-            return ptr;
-        }
-
-        free() {
-            const ptr = this.__destroy_into_raw();
-            wasm.__wbg_summary_free(ptr);
-        }
-        /**
-        */
-        get dps() {
-            var ret = wasm.__wbg_get_summary_dps(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set dps(arg0) {
-            wasm.__wbg_set_summary_dps(this.ptr, arg0);
-        }
-        /**
-        */
-        get pet_dps() {
-            var ret = wasm.__wbg_get_summary_pet_dps(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set pet_dps(arg0) {
-            wasm.__wbg_set_summary_pet_dps(this.ptr, arg0);
-        }
-        /**
-        */
-        get auto_shot_casts() {
-            var ret = wasm.__wbg_get_summary_auto_shot_casts(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set auto_shot_casts(arg0) {
-            wasm.__wbg_set_summary_auto_shot_casts(this.ptr, arg0);
-        }
-        /**
-        */
-        get auto_shot_crits() {
-            var ret = wasm.__wbg_get_summary_auto_shot_crits(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set auto_shot_crits(arg0) {
-            wasm.__wbg_set_summary_auto_shot_crits(this.ptr, arg0);
-        }
-        /**
-        */
-        get auto_shot_dps() {
-            var ret = wasm.__wbg_get_summary_auto_shot_dps(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set auto_shot_dps(arg0) {
-            wasm.__wbg_set_summary_auto_shot_dps(this.ptr, arg0);
-        }
-        /**
-        */
-        get steady_shot_casts() {
-            var ret = wasm.__wbg_get_summary_steady_shot_casts(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set steady_shot_casts(arg0) {
-            wasm.__wbg_set_summary_steady_shot_casts(this.ptr, arg0);
-        }
-        /**
-        */
-        get steady_shot_crits() {
-            var ret = wasm.__wbg_get_summary_steady_shot_crits(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set steady_shot_crits(arg0) {
-            wasm.__wbg_set_summary_steady_shot_crits(this.ptr, arg0);
-        }
-        /**
-        */
-        get steady_shot_dps() {
-            var ret = wasm.__wbg_get_summary_steady_shot_dps(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set steady_shot_dps(arg0) {
-            wasm.__wbg_set_summary_steady_shot_dps(this.ptr, arg0);
-        }
-        /**
-        */
-        get multi_shot_casts() {
-            var ret = wasm.__wbg_get_summary_multi_shot_casts(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set multi_shot_casts(arg0) {
-            wasm.__wbg_set_summary_multi_shot_casts(this.ptr, arg0);
-        }
-        /**
-        */
-        get multi_shot_crits() {
-            var ret = wasm.__wbg_get_summary_multi_shot_crits(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set multi_shot_crits(arg0) {
-            wasm.__wbg_set_summary_multi_shot_crits(this.ptr, arg0);
-        }
-        /**
-        */
-        get multi_shot_dps() {
-            var ret = wasm.__wbg_get_summary_multi_shot_dps(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set multi_shot_dps(arg0) {
-            wasm.__wbg_set_summary_multi_shot_dps(this.ptr, arg0);
-        }
-        /**
-        */
-        get arcane_shot_casts() {
-            var ret = wasm.__wbg_get_summary_arcane_shot_casts(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set arcane_shot_casts(arg0) {
-            wasm.__wbg_set_summary_arcane_shot_casts(this.ptr, arg0);
-        }
-        /**
-        */
-        get arcane_shot_crits() {
-            var ret = wasm.__wbg_get_summary_arcane_shot_crits(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set arcane_shot_crits(arg0) {
-            wasm.__wbg_set_summary_arcane_shot_crits(this.ptr, arg0);
-        }
-        /**
-        */
-        get arcane_shot_dps() {
-            var ret = wasm.__wbg_get_summary_arcane_shot_dps(this.ptr);
-            return ret;
-        }
-        /**
-        * @param {number} arg0
-        */
-        set arcane_shot_dps(arg0) {
-            wasm.__wbg_set_summary_arcane_shot_dps(this.ptr, arg0);
-        }
+    get agi() {
+        var ret = wasm.__wbg_get_stats_agi(this.ptr);
+        return ret;
     }
-    __exports.Summary = Summary;
+    /**
+    * @param {number} arg0
+    */
+    set agi(arg0) {
+        wasm.__wbg_set_stats_agi(this.ptr, arg0);
+    }
+    /**
+    */
+    get crit() {
+        var ret = wasm.__wbg_get_stats_crit(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set crit(arg0) {
+        wasm.__wbg_set_stats_crit(this.ptr, arg0);
+    }
+    /**
+    */
+    get hit() {
+        var ret = wasm.__wbg_get_stats_hit(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set hit(arg0) {
+        wasm.__wbg_set_stats_hit(this.ptr, arg0);
+    }
+    /**
+    */
+    get haste() {
+        var ret = wasm.__wbg_get_stats_haste(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set haste(arg0) {
+        wasm.__wbg_set_stats_haste(this.ptr, arg0);
+    }
+}
+__exports.Stats = Stats;
+/**
+*/
+class Summary {
 
-    async function load(module, imports) {
-        if (typeof Response === 'function' && module instanceof Response) {
-            if (typeof WebAssembly.instantiateStreaming === 'function') {
-                try {
-                    return await WebAssembly.instantiateStreaming(module, imports);
+    static __wrap(ptr) {
+        const obj = Object.create(Summary.prototype);
+        obj.ptr = ptr;
 
-                } catch (e) {
-                    if (module.headers.get('Content-Type') != 'application/wasm') {
-                        console.warn("`WebAssembly.instantiateStreaming` failed because your server does not serve wasm with `application/wasm` MIME type. Falling back to `WebAssembly.instantiate` which is slower. Original error:\n", e);
+        return obj;
+    }
 
-                    } else {
-                        throw e;
-                    }
+    __destroy_into_raw() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_summary_free(ptr);
+    }
+    /**
+    */
+    get dps() {
+        var ret = wasm.__wbg_get_summary_dps(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set dps(arg0) {
+        wasm.__wbg_set_summary_dps(this.ptr, arg0);
+    }
+    /**
+    */
+    get pet_dps() {
+        var ret = wasm.__wbg_get_summary_pet_dps(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set pet_dps(arg0) {
+        wasm.__wbg_set_summary_pet_dps(this.ptr, arg0);
+    }
+    /**
+    */
+    get auto_shot_casts() {
+        var ret = wasm.__wbg_get_summary_auto_shot_casts(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set auto_shot_casts(arg0) {
+        wasm.__wbg_set_summary_auto_shot_casts(this.ptr, arg0);
+    }
+    /**
+    */
+    get auto_shot_crits() {
+        var ret = wasm.__wbg_get_summary_auto_shot_crits(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set auto_shot_crits(arg0) {
+        wasm.__wbg_set_summary_auto_shot_crits(this.ptr, arg0);
+    }
+    /**
+    */
+    get auto_shot_dps() {
+        var ret = wasm.__wbg_get_summary_auto_shot_dps(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set auto_shot_dps(arg0) {
+        wasm.__wbg_set_summary_auto_shot_dps(this.ptr, arg0);
+    }
+    /**
+    */
+    get steady_shot_casts() {
+        var ret = wasm.__wbg_get_summary_steady_shot_casts(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set steady_shot_casts(arg0) {
+        wasm.__wbg_set_summary_steady_shot_casts(this.ptr, arg0);
+    }
+    /**
+    */
+    get steady_shot_crits() {
+        var ret = wasm.__wbg_get_summary_steady_shot_crits(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set steady_shot_crits(arg0) {
+        wasm.__wbg_set_summary_steady_shot_crits(this.ptr, arg0);
+    }
+    /**
+    */
+    get steady_shot_dps() {
+        var ret = wasm.__wbg_get_summary_steady_shot_dps(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set steady_shot_dps(arg0) {
+        wasm.__wbg_set_summary_steady_shot_dps(this.ptr, arg0);
+    }
+    /**
+    */
+    get multi_shot_casts() {
+        var ret = wasm.__wbg_get_summary_multi_shot_casts(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set multi_shot_casts(arg0) {
+        wasm.__wbg_set_summary_multi_shot_casts(this.ptr, arg0);
+    }
+    /**
+    */
+    get multi_shot_crits() {
+        var ret = wasm.__wbg_get_summary_multi_shot_crits(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set multi_shot_crits(arg0) {
+        wasm.__wbg_set_summary_multi_shot_crits(this.ptr, arg0);
+    }
+    /**
+    */
+    get multi_shot_dps() {
+        var ret = wasm.__wbg_get_summary_multi_shot_dps(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set multi_shot_dps(arg0) {
+        wasm.__wbg_set_summary_multi_shot_dps(this.ptr, arg0);
+    }
+    /**
+    */
+    get arcane_shot_casts() {
+        var ret = wasm.__wbg_get_summary_arcane_shot_casts(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set arcane_shot_casts(arg0) {
+        wasm.__wbg_set_summary_arcane_shot_casts(this.ptr, arg0);
+    }
+    /**
+    */
+    get arcane_shot_crits() {
+        var ret = wasm.__wbg_get_summary_arcane_shot_crits(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set arcane_shot_crits(arg0) {
+        wasm.__wbg_set_summary_arcane_shot_crits(this.ptr, arg0);
+    }
+    /**
+    */
+    get arcane_shot_dps() {
+        var ret = wasm.__wbg_get_summary_arcane_shot_dps(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set arcane_shot_dps(arg0) {
+        wasm.__wbg_set_summary_arcane_shot_dps(this.ptr, arg0);
+    }
+}
+__exports.Summary = Summary;
+
+async function load(module, imports) {
+    if (typeof Response === 'function' && module instanceof Response) {
+        if (typeof WebAssembly.instantiateStreaming === 'function') {
+            try {
+                return await WebAssembly.instantiateStreaming(module, imports);
+
+            } catch (e) {
+                if (module.headers.get('Content-Type') != 'application/wasm') {
+                    console.warn("`WebAssembly.instantiateStreaming` failed because your server does not serve wasm with `application/wasm` MIME type. Falling back to `WebAssembly.instantiate` which is slower. Original error:\n", e);
+
+                } else {
+                    throw e;
                 }
             }
+        }
 
-            const bytes = await module.arrayBuffer();
-            return await WebAssembly.instantiate(bytes, imports);
+        const bytes = await module.arrayBuffer();
+        return await WebAssembly.instantiate(bytes, imports);
+
+    } else {
+        const instance = await WebAssembly.instantiate(module, imports);
+
+        if (instance instanceof WebAssembly.Instance) {
+            return { instance, module };
 
         } else {
-            const instance = await WebAssembly.instantiate(module, imports);
-
-            if (instance instanceof WebAssembly.Instance) {
-                return { instance, module };
-
-            } else {
-                return instance;
-            }
+            return instance;
         }
     }
+}
 
-    async function init(input) {
-        if (typeof input === 'undefined') {
-            let src;
-            if (typeof document === 'undefined') {
-                src = location.href;
-            } else {
-                src = document.currentScript.src;
-            }
-            input = src.replace(/\.js$/, '_bg.wasm');
+async function init(input) {
+    if (typeof input === 'undefined') {
+        let src;
+        if (typeof document === 'undefined') {
+            src = location.href;
+        } else {
+            src = document.currentScript.src;
         }
-        const imports = {};
-        imports.wbg = {};
-        imports.wbg.__wbindgen_throw = function(arg0, arg1) {
-            throw new Error(getStringFromWasm0(arg0, arg1));
-        };
+        input = src.replace(/\.js$/, '_bg.wasm');
+    }
+    const imports = {};
+    imports.wbg = {};
+    imports.wbg.__wbg_random_a582babfa4489c72 = typeof Math.random == 'function' ? Math.random : notDefined('Math.random');
+    imports.wbg.__wbindgen_throw = function(arg0, arg1) {
+        throw new Error(getStringFromWasm0(arg0, arg1));
+    };
 
-        if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
-            input = fetch(input);
-        }
-
-
-
-        const { instance, module } = await load(await input, imports);
-
-        wasm = instance.exports;
-        init.__wbindgen_wasm_module = module;
-
-        return wasm;
+    if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
+        input = fetch(input);
     }
 
-    wasm_bindgen = Object.assign(init, __exports);
+
+
+    const { instance, module } = await load(await input, imports);
+
+    wasm = instance.exports;
+    init.__wbindgen_wasm_module = module;
+
+    return wasm;
+}
+
+wasm_bindgen = Object.assign(init, __exports);
 
 })();
